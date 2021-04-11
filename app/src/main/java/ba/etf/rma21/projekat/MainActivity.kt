@@ -1,16 +1,16 @@
 package ba.etf.rma21.projekat
 
-import android.R.attr.data
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.size
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.etf.rma21.projekat.data.models.myKvizes
@@ -20,6 +20,7 @@ import ba.etf.rma21.projekat.view.KvizListAdapter
 import ba.etf.rma21.projekat.viewModel.GrupaListViewModel
 import ba.etf.rma21.projekat.viewModel.KvizListViewModel
 import ba.etf.rma21.projekat.viewModel.PredmetListViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private var kvizListViewModel = KvizListViewModel()
     private var predmetListViewModel = PredmetListViewModel()
     private var kvizovi: KvizRepository = KvizRepository()
+    private lateinit var dodajButton: FloatingActionButton
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         kvizoviRecyclerView.adapter = kvizListAdapter
         kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
 
-
+        dodajButton = findViewById(R.id.upisDugme)
 
 
         filterKvizova = findViewById(R.id.filterKvizova)
@@ -61,8 +63,6 @@ class MainActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                selektovana = filterKvizova.selectedItem.toString()
                 if(selektovana.equals("Svi moji kvizovi")) {
-
-                   // dataList.clear()
                     kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
                 }
                 else if(selektovana.equals("Svi kvizovi")) {
@@ -80,6 +80,16 @@ class MainActivity : AppCompatActivity() {
         println("Probaaaaa")
         println(predmetiByGodina(1).size)
         for(kviz in myKvizes())  println(kviz.naziv + " " + kviz.datumKraj)
+
+
+        dodajButton.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(
+                    this@MainActivity,
+                    UpisPredmet::class.java
+                )
+            )
+        })
     }
 
 

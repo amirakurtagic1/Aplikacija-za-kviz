@@ -1,12 +1,16 @@
 package ba.etf.rma21.projekat.view
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import ba.etf.rma21.projekat.R
+import ba.etf.rma21.projekat.UpisPredmet
 import ba.etf.rma21.projekat.data.models.Kviz
 import org.w3c.dom.Text
 
@@ -19,6 +23,7 @@ class KvizListAdapter(private var kvizovi: List<Kviz>): RecyclerView.Adapter<Kvi
         var datum: TextView = itemView.findViewById(R.id.datumKviza)
         var trajanjeKviza : TextView = itemView.findViewById(R.id.trajanjeKviza)
         var osvojeniBodovi: TextView = itemView.findViewById(R.id.osvojeniBodovi)
+
 
     }
 
@@ -40,7 +45,8 @@ class KvizListAdapter(private var kvizovi: List<Kviz>): RecyclerView.Adapter<Kvi
         holder.datum.setText(kvizovi[position].datumPocetka.toString())
         holder.trajanjeKviza.setText(kvizovi[position].trajanje.toString())
         holder.osvojeniBodovi.setText(kvizovi[position].osvojeniBodovi.toString())
-    }
+
+        }
 
     fun updateKvizes(kvizovi: List<Kviz>) {
         this.kvizovi.toMutableList().clear()
