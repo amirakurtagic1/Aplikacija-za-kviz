@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin = "5dp">
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="226dp"
-        android:layout_height="190dp"
+        android:layout_width="191dp"
+        android:layout_height="170dp"
         tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,9 +20,11 @@
 
             <TextView
                 android:id="@+id/predmet"
-                android:layout_width="75dp"
-                android:layout_height="30dp"
+                android:layout_width="127dp"
+                android:layout_height="37dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="25dp"
                 android:gravity="center"
                 android:text="RMA"
                 android:textSize="30dp"
@@ -30,10 +33,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="213dp"
-                android:layout_height="127dp"
-                android:layout_marginTop="10dp"
+                android:id="@+id/constraintLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="55dp"
+                android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/round"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -97,10 +104,15 @@
                 android:id="@+id/bojaKruga"
                 android:layout_width="25dp"
                 android:layout_height="22dp"
-                android:background="@drawable/circle"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="197dp"
-                tools:layout_editor_absoluteY="10dp" />
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/img"
+                android:innerRadius="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/predmet"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

@@ -35,17 +35,23 @@ class KvizListAdapter(private var kvizovi: List<Kviz>): RecyclerView.Adapter<Kvi
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        for(kviz in kvizovi) println("OVDJE "+ kviz.trajanje)
-//holder i position uvijek piši ovako
         holder.nazivPredmeta.setText(kvizovi[position].nazivPredmeta)
         holder.nazivKviza.setText(kvizovi[position].naziv)
-        holder.datum.setText(kvizovi[position].datumKraj.toString())
+        holder.datum.setText(kvizovi[position].datumPocetka.toString())
         holder.trajanjeKviza.setText(kvizovi[position].trajanje.toString())
         holder.osvojeniBodovi.setText(kvizovi[position].osvojeniBodovi.toString())
     }
 
     fun updateKvizes(kvizovi: List<Kviz>) {
+        this.kvizovi.toMutableList().clear()
         this.kvizovi = kvizovi
         notifyDataSetChanged()
+    }
+
+    fun filterKvizesByDate(kvizovi: List<Kviz>): List<Kviz> {
+
+        //kvizovi.sortedWith(compareByDescending<Kviz> { it.datumPocetka.toString() })
+        kvizovi.sortedBy { it.datumPocetka}
+        return kvizovi
     }
 }

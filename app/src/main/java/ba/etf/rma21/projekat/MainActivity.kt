@@ -1,13 +1,16 @@
 package ba.etf.rma21.projekat
 
+import android.R.attr.data
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.size
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.etf.rma21.projekat.data.models.myKvizes
@@ -24,11 +27,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var kvizoviRecyclerView: RecyclerView
     private lateinit var filterKvizova: Spinner
     private lateinit var kvizListAdapter: KvizListAdapter
-    private lateinit var grupaListViewModel: GrupaListViewModel
+    private var grupaListViewModel = GrupaListViewModel()
     private var kvizListViewModel = KvizListViewModel()
-    private lateinit var predmetListViewModel: PredmetListViewModel
+    private var predmetListViewModel = PredmetListViewModel()
     private var kvizovi: KvizRepository = KvizRepository()
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         kvizoviRecyclerView.layoutManager = GridLayoutManager(this, 2)
         kvizListAdapter = KvizListAdapter(arrayListOf())
         kvizoviRecyclerView.adapter = kvizListAdapter
-        kvizListAdapter.updateKvizes(kvizListViewModel.getAll())
+        kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
 
 
 
@@ -48,19 +50,42 @@ class MainActivity : AppCompatActivity() {
         val arraySpinner = arrayOf(
                 "Svi moji kvizovi", "Svi kvizovi", "Urađeni kvizovi", "Budući kvizovi", "Prošli kvizovi (neurađeni)"
         )
+        var selektovana = ""
         val adapter = ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, arraySpinner)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        filterKvizova.setAdapter(adapter)
+        filterKvizova.adapter = adapter
 
+        filterKvizova.setSelection(1)
+        filterKvizova.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+               selektovana = filterKvizova.selectedItem.toString()
+                if(selektovana.equals("Svi moji kvizovi")) {
 
+                   // dataList.clear()
+                    kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
+                }
+                else if(selektovana.equals("Svi kvizovi")) {
+                    kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
+                }
+                else if(selektovana.equals("Urađeni kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getDone()))
+                else if(selektovana.equals("Budući kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getFuture()))
+                else if(selektovana.equals("Prošli kvizovi (neurađeni)")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getNotTaken()))
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {
 
-
+            }
+        }
 
         println("Probaaaaa")
         println(predmetiByGodina(1).size)
         for(kviz in myKvizes())  println(kviz.naziv + " " + kviz.datumKraj)
     }
+
+
+
+
+
     class MarginItemDecoration(private val spaceSize: Int) : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
                 outRect: Rect, view: View,
