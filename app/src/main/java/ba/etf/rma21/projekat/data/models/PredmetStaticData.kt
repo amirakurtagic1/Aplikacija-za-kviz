@@ -28,7 +28,6 @@ fun predmetiByGodina(godina: Int): List<Predmet>{
     var predmetiPoGodini: List<Predmet> = emptyList<Predmet>()
     var sviPredmeti: List<Predmet> = predmeti()
     for(predmet in sviPredmeti) if(predmet.godina.equals(godina)){
-       // println("Dosao sam ovdje!")
         predmetiPoGodini += predmet
     }
     return predmetiPoGodini
