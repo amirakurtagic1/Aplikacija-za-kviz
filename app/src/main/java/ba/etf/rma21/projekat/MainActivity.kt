@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         filterKvizova = findViewById(R.id.filterKvizova)
         val arraySpinner = arrayOf(
-                "Svi moji kvizovi", "Svi kvizovi", "Urađeni kvizovi", "Budući kvizovi", "Prošli kvizovi (neurađeni)"
+                "Svi moji kvizovi", "Svi kvizovi", "Urađeni kvizovi", "Budući kvizovi", "Prošli kvizovi"
         )
         var selektovana = ""
         val adapter = ArrayAdapter(this,

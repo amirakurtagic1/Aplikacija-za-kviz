@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -22,16 +23,22 @@ class UpisPredmet:  AppCompatActivity() {
     private var grupaListViewModel = GrupaListViewModel()
     private var kvizListViewModel = KvizListViewModel()
     private var predmetListViewModel = PredmetListViewModel()
+    private lateinit var upisiPredmet: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upis_predmet)
 
+        upisiPredmet = findViewById(R.id.dodajPredmetDugme)
+        upisiPredmet.isEnabled = false;
+        upisiPredmet.isClickable = false;
+
+
 
         odabirGodina = findViewById(R.id.odabirGodina)
         val godineSpinner = arrayOf(
-            1, 2, 3, 4, 5
+            "1", "2", "3", "4", "5"
         )
         var selektovanaGodina = 0
         val adapterGodina = ArrayAdapter(
@@ -61,8 +68,16 @@ class UpisPredmet:  AppCompatActivity() {
         adapterGrupa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         odabirGrupa.adapter = adapterGrupa
 
+        odabirPredmet.isEnabled = false;
+        odabirPredmet.isClickable = false;
 
-    var postoji = false;
+        odabirGrupa.isEnabled = false;
+        odabirGrupa.isClickable = false;
+
+
+        var postoji = false;
+
+
 
         odabirGodina.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @RequiresApi(Build.VERSION_CODES.O)
@@ -73,6 +88,13 @@ class UpisPredmet:  AppCompatActivity() {
                 id: Long
             ) {
                 predmetiSpinner.clear()
+                grupeSpinner.clear()
+
+                upisiPredmet.isEnabled = false;
+                upisiPredmet.isClickable = false;
+
+                odabirPredmet.isClickable = true;
+                odabirPredmet.isEnabled = true;
                 selektovanaGodina = odabirGodina.selectedItem.toString().toInt()
                 println("SELEKTOVANA GODINA: " + selektovanaGodina)
                 var predmetiGodine = predmetListViewModel.getPredmetsByGodina(selektovanaGodina)
@@ -94,6 +116,7 @@ class UpisPredmet:  AppCompatActivity() {
                // adapterPredmet.clear()
                 //adapterPredmet.addAll(predmetiSpinner)
                 adapterPredmet.notifyDataSetChanged()
+                adapterGrupa.notifyDataSetChanged()
 
             }
 
@@ -110,7 +133,12 @@ class UpisPredmet:  AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                grupeSpinner.clear()
+                adapterGrupa.clear()
+                upisiPredmet.isEnabled = false;
+                upisiPredmet.isClickable = false;
+
+                odabirGrupa.isEnabled = true;
+                odabirGrupa.isClickable = true;
                 selektovaniPredmet = odabirPredmet.selectedItem.toString()
 
                 var grupePoPredmetu = grupaListViewModel.getGroupsByPredmet(selektovaniPredmet)
@@ -119,7 +147,6 @@ class UpisPredmet:  AppCompatActivity() {
                 for(grupa in grupePoPredmetu){
                     grupeSpinner.add(grupa.naziv)
                 }
-
                 // adapterPredmet.clear()
                 //adapterPredmet.addAll(predmetiSpinner)
                 adapterGrupa.notifyDataSetChanged()
@@ -130,5 +157,24 @@ class UpisPredmet:  AppCompatActivity() {
 
             }
         }
+
+        odabirGrupa.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+
+                upisiPredmet.isClickable = true;
+                upisiPredmet.isEnabled = true;
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
     }
 }
+

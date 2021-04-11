@@ -15,6 +15,7 @@ fun kvizes(): List<Kviz>{
     val date = Date(3600000)
     return listOf(Kviz("Kviz1", "RMA", Date(1616662800000), Date(1617094800000), Date(1616922000000), 2, "Grupa1", toFloat((2.5).toShort())),
             Kviz("Kviz2", "RMA", Date(1616662800000), Date(1617094800000), date, 2, "Grupa2", toFloat((-1.0).toShort())),
+             Kviz("Kviz3", "RMA", Date(1618909200000), Date(1619514000000), date, 2, "Grupa2", toFloat((-1.0).toShort())),
             Kviz("Kviz1", "UUP", Date(1617267600000), Date(1617958800000), date, 5, "Grupa1", toFloat((-1.0).toShort())),
             Kviz("Kviz2", "UUP", Date(1617354000000), Date(1617526800000), date, 5, "Grupa2", toFloat((-1.0).toShort())),
             Kviz("Kviz1", "ASP", Date(1617526800000), Date(1618477200000), date, 10, "Grupa1", toFloat((-1.0).toShort())),
@@ -31,6 +32,7 @@ fun kvizes(): List<Kviz>{
 fun myKvizes(): List<Kviz>{
     val date = Date(3600000)
     return listOf(Kviz("Kviz1", "RMA", Date(1616662800000), Date(1617094800000), Date(1616922000000), 2, "Grupa1", toFloat((2.5).toShort())),
+            Kviz("Kviz3", "RMA", Date(1618909200000), Date(1619514000000), date, 2, "Grupa2", toFloat((-1.0).toShort())),
             Kviz("Kviz1", "UUP", Date(1617267600000), Date(1617958800000), date, 5, "Grupa1", toFloat((-1.0).toShort())),
             Kviz("Kviz1", "NRS", Date(1617613200000), Date(1618045200000), date, 7, "Grupa1", toFloat((-1.0).toShort())))
 }
