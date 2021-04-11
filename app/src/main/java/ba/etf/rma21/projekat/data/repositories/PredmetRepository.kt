@@ -7,8 +7,15 @@ import ba.etf.rma21.projekat.data.models.upisani
 
 class PredmetRepository {
     companion object {
+
+        lateinit var predmet:Predmet
+
+        fun addPredmetToUpisani(predmet: Predmet){
+            this.predmet = predmet;
+        }
         fun getUpisani(): List<Predmet> {
-            var getUpisani: List<Predmet> = upisani()
+            var getUpisani: List<Predmet>  = upisani()
+            if(this::predmet.isInitialized) getUpisani += predmet;
             return getUpisani
         }
 

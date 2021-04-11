@@ -12,11 +12,26 @@ class KvizRepository {
         init {
             // TODO: Implementirati
         }
+        lateinit var noviKviz: Kviz
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun addKviz(predmet: Predmet, grupa: Grupa){
+            var sviKvizovi: List<Kviz> = getAll()
+            for(kviz in sviKvizovi){
+                println("OVDJEEE SAM: " + predmet.naziv + " " + kviz.nazivPredmeta + " " + grupa.naziv + " " + kviz.nazivGrupe)
+                if(predmet.naziv.equals(kviz.nazivPredmeta) && grupa.naziv.equals(kviz.nazivGrupe)) {
+                    noviKviz = kviz
+                }
+            }
+            //return noviKviz;
+        }
 
         @RequiresApi(Build.VERSION_CODES.O)
         fun getMyKvizes(): List<Kviz> {
             // TODO: Implementirati: kvizovi za predmete i grupe gdje je korisnik upisan
-            return myKvizes()
+            var mojiKvizovi: List<Kviz> = myKvizes()
+            if(this::noviKviz.isInitialized) mojiKvizovi += noviKviz
+            return mojiKvizovi
         }
 
         @RequiresApi(Build.VERSION_CODES.O)
@@ -42,6 +57,7 @@ class KvizRepository {
             // TODO: Implementirati: moji kvizovi koji su prošli ali nisu urađeni
             return notTakenKvizes()
         }
+
         // TODO: Implementirati i ostale potrebne metode
     }
 }

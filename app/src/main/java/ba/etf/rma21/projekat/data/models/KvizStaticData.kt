@@ -23,7 +23,13 @@ fun kvizes(): List<Kviz>{
             Kviz("Kviz1", "TP", Date(1616662800000), Date(1617354000000), date, 5, "Grupa1", toFloat((-1.0).toShort())),
             Kviz("Kviz2", "TP", Date(1617008400000), Date(1617699600000), date, 5, "Grupa2", toFloat((-1.0).toShort())),
             Kviz("Kviz1", "NRS", Date(1617613200000), Date(1618045200000), date, 7, "Grupa1", toFloat((-1.0).toShort())),
-            Kviz("Kviz2", "NRS", Date(1617613200000), Date(1618045200000), date, 7, "Grupa2", toFloat((-1.0).toShort()))
+            Kviz("Kviz2", "NRS", Date(1617613200000), Date(1618045200000), date, 7, "Grupa2", toFloat((-1.0).toShort())),
+            Kviz("Kviz1", "FWT", Date(1615798800000), Date(1616403600000), date, 7, "Grupa1", toFloat((-1.0).toShort())),
+            Kviz("Kviz2", "FWT", Date(1615971600000), Date(1616576400000), date, 7, "Grupa2", toFloat((-1.0).toShort())),
+            Kviz("Kviz1", "OIS", Date(1619168400000), Date(1619773200000), date, 7, "Grupa1", toFloat((-1.0).toShort())),
+            Kviz("Kviz2", "OIS", Date(1619082000000), Date(1619686800000), date, 7, "Grupa2", toFloat((-1.0).toShort())),
+            Kviz("Kviz1", "IM1", Date(1613984400000), Date(1614589200000), date, 7, "Grupa1", toFloat((-1.0).toShort())),
+            Kviz("Kviz2", "IM1", Date(1614157200000), Date(1614762000000), date, 7, "Grupa2", toFloat((-1.0).toShort()))
             )
 }
 

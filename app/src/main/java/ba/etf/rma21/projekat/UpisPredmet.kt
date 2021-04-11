@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import ba.etf.rma21.projekat.data.models.Grupa
 import ba.etf.rma21.projekat.data.models.Predmet
 import ba.etf.rma21.projekat.viewModel.GrupaListViewModel
@@ -26,6 +27,7 @@ class UpisPredmet:  AppCompatActivity() {
     private lateinit var upisiPredmet: Button
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upis_predmet)
@@ -68,11 +70,11 @@ class UpisPredmet:  AppCompatActivity() {
         adapterGrupa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         odabirGrupa.adapter = adapterGrupa
 
-        odabirPredmet.isEnabled = false;
-        odabirPredmet.isClickable = false;
+      //  odabirPredmet.isEnabled = false;
+      //  odabirPredmet.isClickable = false;
 
-        odabirGrupa.isEnabled = false;
-        odabirGrupa.isClickable = false;
+      //  odabirGrupa.isEnabled = false;
+       // odabirGrupa.isClickable = false;
 
 
         var postoji = false;
@@ -93,8 +95,8 @@ class UpisPredmet:  AppCompatActivity() {
                 upisiPredmet.isEnabled = false;
                 upisiPredmet.isClickable = false;
 
-                odabirPredmet.isClickable = true;
-                odabirPredmet.isEnabled = true;
+              //  odabirPredmet.isClickable = true;
+                //odabirPredmet.isEnabled = true;
                 selektovanaGodina = odabirGodina.selectedItem.toString().toInt()
                 println("SELEKTOVANA GODINA: " + selektovanaGodina)
                 var predmetiGodine = predmetListViewModel.getPredmetsByGodina(selektovanaGodina)
@@ -125,6 +127,7 @@ class UpisPredmet:  AppCompatActivity() {
             }
         }
 
+
         odabirPredmet.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onItemSelected(
@@ -134,12 +137,11 @@ class UpisPredmet:  AppCompatActivity() {
                 id: Long
             ) {
                 adapterGrupa.clear()
-                upisiPredmet.isEnabled = false;
-                upisiPredmet.isClickable = false;
 
-                odabirGrupa.isEnabled = true;
-                odabirGrupa.isClickable = true;
+               // odabirGrupa.isEnabled = true;
+               // odabirGrupa.isClickable = true;
                 selektovaniPredmet = odabirPredmet.selectedItem.toString()
+               // else selektovaniPredmet = odabirPredmet.get(0).toString()
 
                 var grupePoPredmetu = grupaListViewModel.getGroupsByPredmet(selektovaniPredmet)
 
@@ -175,6 +177,18 @@ class UpisPredmet:  AppCompatActivity() {
 
             }
         }
+
+        upisiPredmet.setOnClickListener {
+            predmetListViewModel.addPredmetToUpisani(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()))
+            kvizListViewModel.addKvizToMyKvizes(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()), Grupa(odabirGrupa.selectedItem.toString(), odabirPredmet.selectedItem.toString()))
+           // println("Selektovani predmet: " + odabirPredmet.selectedItem.toString())
+            //println("Selektovana godina: " + odabirGodina.selectedItem.toString())
+            for(kviz in kvizListViewModel.getMyKvizes()) println("Moj upisani predmet: " + kviz)
+            finish()
+        }
+
     }
+
+
 }
 
