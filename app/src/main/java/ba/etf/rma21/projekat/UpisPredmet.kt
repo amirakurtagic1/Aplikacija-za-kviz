@@ -124,6 +124,10 @@ class UpisPredmet:  AppCompatActivity() {
         for (grupa in grupePoPredmetu) {
             grupeSpinner.add(grupa.naziv)
         }
+        if(grupePoPredmetu.size !== 0) {
+            upisiPredmet.isClickable = true;
+            upisiPredmet.isEnabled = true;
+        }
 
         adapterPredmet.notifyDataSetChanged()
         adapterGrupa.notifyDataSetChanged()
