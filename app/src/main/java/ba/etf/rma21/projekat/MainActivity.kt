@@ -2,13 +2,11 @@ package ba.etf.rma21.projekat
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -69,9 +67,9 @@ class MainActivity : AppCompatActivity() {
                     kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
                 } else if (selektovana.equals("Svi kvizovi")) {
                     kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
-                } else if (selektovana.equals("Urađeni kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getDone()))
-                else if (selektovana.equals("Budući kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getFuture()))
-                else if (selektovana.equals("Prošli kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getNotTaken()))
+                } else if (selektovana.equals("Urađeni kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyDoneKvizes()))
+                else if (selektovana.equals("Budući kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyFutureKvizes()))
+                else if (selektovana.equals("Prošli kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyNotTakenKvizes()))
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -98,7 +96,8 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
+
+                if(filterKvizova.selectedItem.equals("Svi moji kvizovi"))kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
             }
         }
     }

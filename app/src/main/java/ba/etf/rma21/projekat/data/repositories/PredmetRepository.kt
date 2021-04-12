@@ -9,16 +9,16 @@ class PredmetRepository {
     companion object {
 
         lateinit var predmet:Predmet
-      //  lateinit var noviPredmetiLista: List<Predmet>
+         var noviPredmetiLista = emptyList<Predmet>()
 
         fun addPredmetToUpisani(predmet: Predmet){
             this.predmet = predmet;
-           // noviPredmetiLista += predmet;
+            noviPredmetiLista += predmet;
         }
         fun getUpisani(): List<Predmet> {
             var getUpisani: List<Predmet>  = upisani()
             if(this::predmet.isInitialized) {
-                getUpisani += predmet;
+                getUpisani += noviPredmetiLista;
             }
             return getUpisani
         }

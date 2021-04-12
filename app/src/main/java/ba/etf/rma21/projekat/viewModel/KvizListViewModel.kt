@@ -1,7 +1,5 @@
 package ba.etf.rma21.projekat.viewModel
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import ba.etf.rma21.projekat.data.models.Grupa
 import ba.etf.rma21.projekat.data.models.Kviz
 import ba.etf.rma21.projekat.data.models.Predmet
@@ -16,16 +14,28 @@ class KvizListViewModel {
         return KvizRepository.getAll()
     }
 
-    fun getDone(): List<Kviz> {
+    fun getDone(): List<Kviz>{
         return KvizRepository.getDone()
     }
 
-    fun getFuture(): List<Kviz> {
+    fun getMyDoneKvizes(): List<Kviz> {
+        return KvizRepository.getMyDoneKvizes()
+    }
+
+    fun getFuture(): List<Kviz>{
         return KvizRepository.getFuture()
     }
 
-    fun getNotTaken(): List<Kviz> {
+    fun getMyFutureKvizes(): List<Kviz> {
+        return KvizRepository.getMyFutureKvizes()
+    }
+
+    fun getNotTaken(): List<Kviz>{
         return KvizRepository.getNotTaken()
+    }
+
+    fun getMyNotTakenKvizes(): List<Kviz> {
+        return KvizRepository.getMyNotTakenKvizes()
     }
 
     fun addKvizToMyKvizes(predmet: Predmet, grupa: Grupa){
