@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/kviz"
-    android:layout_margin = "5dp">
+    android:layout_margin = "2dp">
 
 
     <androidx.cardview.widget.CardView
@@ -64,7 +64,7 @@
                     android:id="@+id/datumKviza"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="20.03.2021"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -101,19 +101,17 @@
                     app:layout_constraintVertical_bias="0.941" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/bojaKruga"
-                android:layout_width="25dp"
-                android:layout_height="22dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/img"
-                android:innerRadius="0dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/predmet"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintVertical_bias="0.23000002" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

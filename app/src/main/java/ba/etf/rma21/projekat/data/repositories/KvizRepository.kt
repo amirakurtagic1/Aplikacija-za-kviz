@@ -14,7 +14,6 @@ class KvizRepository {
         }
         lateinit var noviKviz: Kviz
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun addKviz(predmet: Predmet, grupa: Grupa){
             var sviKvizovi: List<Kviz> = getAll()
             for(kviz in sviKvizovi){
@@ -26,7 +25,6 @@ class KvizRepository {
             //return noviKviz;
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun getMyKvizes(): List<Kviz> {
             // TODO: Implementirati: kvizovi za predmete i grupe gdje je korisnik upisan
             var mojiKvizovi: List<Kviz> = myKvizes()
@@ -34,25 +32,21 @@ class KvizRepository {
             return mojiKvizovi
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun getAll(): List<Kviz> {
             // TODO: Implementirati: svi kvizovi u aplikaciji
             return kvizes()
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun getDone(): List<Kviz> {
             // TODO: Implementirati: moji kvizovi koji su uradjeni
             return doneKvizes()
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun getFuture(): List<Kviz> {
             // TODO: Implementirati: moji kvizovi koji su budući
             return futureKvizes()
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun getNotTaken(): List<Kviz> {
             // TODO: Implementirati: moji kvizovi koji su prošli ali nisu urađeni
             return notTakenKvizes()
