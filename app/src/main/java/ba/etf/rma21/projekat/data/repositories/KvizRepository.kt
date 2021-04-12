@@ -13,6 +13,7 @@ class KvizRepository {
             // TODO: Implementirati
         }
         lateinit var noviKviz: Kviz
+     //   lateinit var noviKvizoviLista: List<Kviz>
 
         fun addKviz(predmet: Predmet, grupa: Grupa){
             var sviKvizovi: List<Kviz> = getAll()
@@ -20,6 +21,7 @@ class KvizRepository {
                 println("OVDJEEE SAM: " + predmet.naziv + " " + kviz.nazivPredmeta + " " + grupa.naziv + " " + kviz.nazivGrupe)
                 if(predmet.naziv.equals(kviz.nazivPredmeta) && grupa.naziv.equals(kviz.nazivGrupe)) {
                     noviKviz = kviz
+                //    noviKvizoviLista += noviKviz
                 }
             }
             //return noviKviz;
@@ -28,7 +30,9 @@ class KvizRepository {
         fun getMyKvizes(): List<Kviz> {
             // TODO: Implementirati: kvizovi za predmete i grupe gdje je korisnik upisan
             var mojiKvizovi: List<Kviz> = myKvizes()
-            if(this::noviKviz.isInitialized) mojiKvizovi += noviKviz
+            if(this::noviKviz.isInitialized) {
+                mojiKvizovi += noviKviz
+            }
             return mojiKvizovi
         }
 

@@ -1,5 +1,7 @@
 package ba.etf.rma21.projekat
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -9,12 +11,12 @@ import android.widget.Button
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import ba.etf.rma21.projekat.data.models.Grupa
 import ba.etf.rma21.projekat.data.models.Predmet
 import ba.etf.rma21.projekat.viewModel.GrupaListViewModel
 import ba.etf.rma21.projekat.viewModel.KvizListViewModel
 import ba.etf.rma21.projekat.viewModel.PredmetListViewModel
+
 
 class UpisPredmet:  AppCompatActivity() {
 
@@ -26,8 +28,6 @@ class UpisPredmet:  AppCompatActivity() {
     private var predmetListViewModel = PredmetListViewModel()
     private lateinit var upisiPredmet: Button
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upis_predmet)
@@ -91,6 +91,8 @@ class UpisPredmet:  AppCompatActivity() {
             ) {
                 predmetiSpinner.clear()
                 grupeSpinner.clear()
+                adapterPredmet.clear()
+                adapterGrupa.clear()
 
                 upisiPredmet.isEnabled = false;
                 upisiPredmet.isClickable = false;
@@ -115,10 +117,17 @@ class UpisPredmet:  AppCompatActivity() {
                     }
                 }
 
-               // adapterPredmet.clear()
-                //adapterPredmet.addAll(predmetiSpinner)
-                adapterPredmet.notifyDataSetChanged()
-                adapterGrupa.notifyDataSetChanged()
+    if(predmetiSpinner.size !== 0) {
+        var grupePoPredmetu = grupaListViewModel.getGroupsByPredmet(predmetiSpinner[0])
+
+
+        for (grupa in grupePoPredmetu) {
+            grupeSpinner.add(grupa.naziv)
+        }
+
+        adapterPredmet.notifyDataSetChanged()
+        adapterGrupa.notifyDataSetChanged()
+    }
 
             }
 
@@ -126,7 +135,6 @@ class UpisPredmet:  AppCompatActivity() {
 
             }
         }
-
 
         odabirPredmet.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @RequiresApi(Build.VERSION_CODES.O)
@@ -137,7 +145,7 @@ class UpisPredmet:  AppCompatActivity() {
                 id: Long
             ) {
                 adapterGrupa.clear()
-
+                grupeSpinner.clear()
                // odabirGrupa.isEnabled = true;
                // odabirGrupa.isClickable = true;
                 selektovaniPredmet = odabirPredmet.selectedItem.toString()
@@ -184,6 +192,9 @@ class UpisPredmet:  AppCompatActivity() {
            // println("Selektovani predmet: " + odabirPredmet.selectedItem.toString())
             //println("Selektovana godina: " + odabirGodina.selectedItem.toString())
             for(kviz in kvizListViewModel.getMyKvizes()) println("Moj upisani predmet: " + kviz)
+
+            val resultIntent = Intent()
+            setResult(Activity.RESULT_OK, resultIntent)
             finish()
         }
 

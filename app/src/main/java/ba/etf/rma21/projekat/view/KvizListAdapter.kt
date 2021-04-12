@@ -46,15 +46,27 @@ class KvizListAdapter(private var kvizovi: List<Kviz>): RecyclerView.Adapter<Kvi
         val dateFormat = SimpleDateFormat("dd.MM.yyyy")
         holder.nazivPredmeta.setText(kvizovi[position].nazivPredmeta)
         holder.nazivKviza.setText(kvizovi[position].naziv)
-        holder.datum.setText(dateFormat.format(kvizovi[position].datumPocetka))
+        //holder.datum.setText(dateFormat.format(kvizovi[position].datumPocetka))
         holder.trajanjeKviza.setText(kvizovi[position].trajanje.toString() + " min")
         if (kvizovi[position].osvojeniBodovi === null) holder.osvojeniBodovi.setText("")
         else holder.osvojeniBodovi.setText(kvizovi[position].osvojeniBodovi.toString())
 
-        if (kvizovi[position].datumRada !== null) holder.imgView.setImageResource(R.drawable.plava)
-        else if (kvizovi[position].datumPocetka.before(Calendar.getInstance().time) && kvizovi[position].datumKraj.after(Calendar.getInstance().time) && kvizovi[position].datumRada === null) holder.imgView.setImageResource(R.drawable.zelena)
-        else if(kvizovi[position].datumPocetka.after(Calendar.getInstance().time)) holder.imgView.setImageResource(R.drawable.zuta)
-        else if(kvizovi[position].datumKraj.before(Calendar.getInstance().time) && kvizovi[position].datumRada === null) holder.imgView.setImageResource(R.drawable.crvena)
+        if (kvizovi[position].datumRada !== null) {
+            holder.datum.setText(dateFormat.format(kvizovi[position].datumRada))
+            holder.imgView.setImageResource(R.drawable.plava)
+        }
+        else if (kvizovi[position].datumPocetka.before(Calendar.getInstance().time) && kvizovi[position].datumKraj.after(Calendar.getInstance().time) && kvizovi[position].datumRada === null) {
+            holder.datum.setText(dateFormat.format(kvizovi[position].datumKraj))
+            holder.imgView.setImageResource(R.drawable.zelena)
+        }
+        else if(kvizovi[position].datumPocetka.after(Calendar.getInstance().time)) {
+            holder.datum.setText(dateFormat.format(kvizovi[position].datumPocetka))
+            holder.imgView.setImageResource(R.drawable.zuta)
+        }
+        else if(kvizovi[position].datumKraj.before(Calendar.getInstance().time) && kvizovi[position].datumRada === null) {
+            holder.datum.setText(dateFormat.format(kvizovi[position].datumKraj))
+            holder.imgView.setImageResource(R.drawable.crvena)
+        }
 
     }
 

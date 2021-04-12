@@ -1,5 +1,6 @@
 package ba.etf.rma21.projekat
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Build
@@ -45,6 +46,8 @@ class MainActivity : AppCompatActivity() {
         kvizoviRecyclerView.adapter = kvizListAdapter
         kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
 
+
+
         dodajButton = findViewById(R.id.upisDugme)
 
 
@@ -61,17 +64,16 @@ class MainActivity : AppCompatActivity() {
         filterKvizova.setSelection(1)
         filterKvizova.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-               selektovana = filterKvizova.selectedItem.toString()
-                if(selektovana.equals("Svi moji kvizovi")) {
+                selektovana = filterKvizova.selectedItem.toString()
+                if (selektovana.equals("Svi moji kvizovi")) {
                     kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
-                }
-                else if(selektovana.equals("Svi kvizovi")) {
+                } else if (selektovana.equals("Svi kvizovi")) {
                     kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
-                }
-                else if(selektovana.equals("Urađeni kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getDone()))
-                else if(selektovana.equals("Budući kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getFuture()))
-                else if(selektovana.equals("Prošli kvizovi (neurađeni)")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getNotTaken()))
+                } else if (selektovana.equals("Urađeni kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getDone()))
+                else if (selektovana.equals("Budući kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getFuture()))
+                else if (selektovana.equals("Prošli kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getNotTaken()))
             }
+
             override fun onNothingSelected(parent: AdapterView<*>) {
 
             }
@@ -79,17 +81,26 @@ class MainActivity : AppCompatActivity() {
 
         println("Probaaaaa")
         println(predmetiByGodina(1).size)
-        for(kviz in myKvizes())  println(kviz.naziv + " " + kviz.datumKraj)
+        for (kviz in myKvizes()) println(kviz.naziv + " " + kviz.datumKraj)
 
 
         dodajButton.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    this@MainActivity,
-                    UpisPredmet::class.java
-                )
+            startActivityForResult(
+                    Intent(
+                            this@MainActivity,
+                            UpisPredmet::class.java
+                    ),1
             )
         })
+
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
+            }
+        }
     }
 }
 
