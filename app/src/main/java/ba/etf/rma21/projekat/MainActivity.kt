@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         kvizoviRecyclerView = findViewById(R.id.listaKvizova)
+
         kvizoviRecyclerView.layoutManager = GridLayoutManager(this, 2)
         kvizListAdapter = KvizListAdapter(arrayListOf())
         kvizoviRecyclerView.adapter = kvizListAdapter
