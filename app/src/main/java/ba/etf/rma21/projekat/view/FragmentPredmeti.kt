@@ -1,5 +1,6 @@
 package ba.etf.rma21.projekat.view
 
+import android.app.FragmentTransaction
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import androidx.activity.OnBackPressedDispatcher
 import androidx.fragment.app.Fragment
 import ba.etf.rma21.projekat.R
 import ba.etf.rma21.projekat.data.models.Grupa
@@ -26,6 +28,18 @@ class FragmentPredmeti: Fragment() {
     private var kvizListViewModel = KvizListViewModel()
     private var predmetListViewModel = PredmetListViewModel()
     private lateinit var upisiPredmet: Button
+
+  /*  override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // This callback will only be called when MyFragment is at least Started.
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            // Handle the back button event
+        }
+
+        // The callback can be enabled or disabled here or in the lambda
+    }*/
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -230,7 +244,6 @@ class FragmentPredmeti: Fragment() {
            // getActivity()?.startActivity(i);
         }
 
-
         return view;
     }
 
@@ -243,3 +256,4 @@ class FragmentPredmeti: Fragment() {
 
 
 }
+

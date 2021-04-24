@@ -6,4 +6,10 @@
     <item
         android:id="@+id/predmeti"
         android:title="Predmeti"/>
+    <item
+        android:id="@+id/predajKviz"
+        android:title="Predaj Kviz"/>
+    <item
+        android:id="@+id/zaustaviKviz"
+        android:title="Zaustavi Kviz"/>
 </menu>
