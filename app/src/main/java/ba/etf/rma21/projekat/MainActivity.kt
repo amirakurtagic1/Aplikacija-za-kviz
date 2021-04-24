@@ -11,11 +11,14 @@ import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.etf.rma21.projekat.data.models.myKvizes
 import ba.etf.rma21.projekat.data.models.predmetiByGodina
 import ba.etf.rma21.projekat.data.repositories.KvizRepository
+import ba.etf.rma21.projekat.view.FragmentKvizovi
+import ba.etf.rma21.projekat.view.FragmentPredmeti
 import ba.etf.rma21.projekat.view.KvizListAdapter
 import ba.etf.rma21.projekat.viewModel.GrupaListViewModel
 import ba.etf.rma21.projekat.viewModel.KvizListViewModel
@@ -37,13 +40,45 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNav: BottomNavigationView
 
+
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.kvizovi -> {
+                val favoritesFragment = FragmentKvizovi.newInstance()
+                openFragment(favoritesFragment)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.predmeti -> {
+                val recentFragments = FragmentPredmeti.newInstance()
+                openFragment(recentFragments)
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
+
+    private fun openFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.placeforFragment, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
-
+        bottomNav= findViewById(R.id.bottomNav)
+        bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        //Defaultni fragment
+        bottomNav.selectedItemId= R.id.kvizovi
+        val favoritesFragment = FragmentKvizovi.newInstance()
+        openFragment(favoritesFragment)
 
 
 
