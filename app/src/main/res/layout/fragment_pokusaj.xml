@@ -9,20 +9,21 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigacijaPitanja"
-        android:layout_width="95dp"
-        android:layout_height="match_parent"
+        android:layout_width="60dp"
+        android:layout_height="715dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/framePitanje"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/navigationview" />
 
     <FrameLayout
         android:id="@+id/framePitanje"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/navigacijaPitanja"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content" />
 </androidx.constraintlayout.widget.ConstraintLayout>
