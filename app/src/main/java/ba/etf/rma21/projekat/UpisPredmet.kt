@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import ba.etf.rma21.projekat.data.models.Grupa
 import ba.etf.rma21.projekat.data.models.Predmet
+import ba.etf.rma21.projekat.view.FragmentPoruka
 import ba.etf.rma21.projekat.viewModel.GrupaListViewModel
 import ba.etf.rma21.projekat.viewModel.KvizListViewModel
 import ba.etf.rma21.projekat.viewModel.PredmetListViewModel
@@ -192,11 +193,17 @@ class UpisPredmet:  AppCompatActivity() {
 
         upisiPredmet.setOnClickListener {
             predmetListViewModel.addPredmetToUpisani(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()))
+            val grupa = Grupa(odabirGrupa.selectedItem.toString(), odabirPredmet.selectedItem.toString());
             kvizListViewModel.addKvizToMyKvizes(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()), Grupa(odabirGrupa.selectedItem.toString(), odabirPredmet.selectedItem.toString()))
            // println("Selektovani predmet: " + odabirPredmet.selectedItem.toString())
             //println("Selektovana godina: " + odabirGodina.selectedItem.toString())
             for(kviz in kvizListViewModel.getMyKvizes()) println("Moj upisani predmet: " + kviz)
 
+            val fragmentPoruka = FragmentPoruka.newInstance("Neka poruka");
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.placeforFragment, fragmentPoruka)
+            transaction.addToBackStack(null)
+            transaction.commit()
             val resultIntent = Intent()
             setResult(Activity.RESULT_OK, resultIntent)
             finish()
