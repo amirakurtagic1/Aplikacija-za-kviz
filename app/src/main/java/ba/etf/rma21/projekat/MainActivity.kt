@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -74,8 +75,8 @@ class MainActivity : AppCompatActivity() {
        // bottomNav.menu.findItem(R.id.predajKviz).isEnabled = false;
        // bottomNav.menu.findItem(R.id.zaustaviKviz).isEnabled = false;
 
-        bottomNav.menu.removeItem(R.id.predajKviz);
-        bottomNav.menu.removeItem(R.id.zaustaviKviz);
+        bottomNav.menu.findItem(R.id.predajKviz).setVisible(false);
+        bottomNav.menu.findItem(R.id.zaustaviKviz).setVisible(false);
 
 
 
@@ -138,6 +139,14 @@ class MainActivity : AppCompatActivity() {
            }*/
 
         }
+
+    fun prilagodiBottomNavigation(){
+        bottomNav.menu.findItem(R.id.kvizovi).setVisible(false);
+        bottomNav.menu.findItem(R.id.predmeti).setVisible(false);
+        bottomNav.menu.findItem(R.id.predajKviz).setVisible(true)
+        bottomNav.menu.findItem(R.id.zaustaviKviz).setVisible(true)
+        //bottomNav.menu.getItem(3).setVisible(true)
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {

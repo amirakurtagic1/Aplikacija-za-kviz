@@ -38,6 +38,7 @@ class FragmentKvizovi: Fragment() {
         kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
 
 
+
         filterKvizova = view.findViewById(R.id.filterKvizova)
         val arraySpinner = arrayOf(
             "Svi moji kvizovi", "Svi kvizovi", "Urađeni kvizovi", "Budući kvizovi", "Prošli kvizovi"
