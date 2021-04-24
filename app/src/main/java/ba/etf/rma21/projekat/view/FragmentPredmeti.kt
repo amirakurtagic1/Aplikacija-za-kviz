@@ -1,8 +1,5 @@
 package ba.etf.rma21.projekat.view
 
-import android.app.Activity
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +8,14 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import ba.etf.rma21.projekat.R
 import ba.etf.rma21.projekat.data.models.Grupa
 import ba.etf.rma21.projekat.data.models.Predmet
 import ba.etf.rma21.projekat.viewModel.GrupaListViewModel
 import ba.etf.rma21.projekat.viewModel.KvizListViewModel
 import ba.etf.rma21.projekat.viewModel.PredmetListViewModel
+
 
 class FragmentPredmeti: Fragment() {
 
@@ -100,7 +96,6 @@ class FragmentPredmeti: Fragment() {
 
 
         odabirGodina.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            @RequiresApi(Build.VERSION_CODES.O)
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View,
@@ -167,7 +162,6 @@ class FragmentPredmeti: Fragment() {
         }
 
         odabirPredmet.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            @RequiresApi(Build.VERSION_CODES.O)
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View,
@@ -203,7 +197,6 @@ class FragmentPredmeti: Fragment() {
         }
 
         odabirGrupa.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            @RequiresApi(Build.VERSION_CODES.O)
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View,
@@ -221,15 +214,32 @@ class FragmentPredmeti: Fragment() {
         }
 
         upisiPredmet.setOnClickListener {
+            predmetListViewModel.addPredmetToUpisani(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()))
+            var grupa = Grupa(odabirGrupa.selectedItem.toString(), odabirPredmet.selectedItem.toString());
+            kvizListViewModel.addKvizToMyKvizes(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()), Grupa(odabirGrupa.selectedItem.toString(), odabirPredmet.selectedItem.toString()))
+            // println("Selektovani predmet: " + odabirPredmet.selectedItem.toString())
+            //println("Selektovana godina: " + odabirGodina.selectedItem.toString())
+            for(kviz in kvizListViewModel.getMyKvizes()) println("Moj upisani predmet: " + kviz)
 
+            val fragmentPoruka = FragmentPoruka("Uspješno ste upisani u grupu ${grupa.naziv} predmeta ${grupa.nazivPredmeta}!");
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.placeforFragment, fragmentPoruka, "findThisFragment")
+                ?.addToBackStack(null)
+                ?.commit()
+           // setResult(Activity.RESULT_OK, i)
+           // getActivity()?.startActivity(i);
         }
+
 
         return view;
     }
 
 
+
     companion object {
         fun newInstance(): FragmentPredmeti = FragmentPredmeti()
     }
+
+
 
 }
