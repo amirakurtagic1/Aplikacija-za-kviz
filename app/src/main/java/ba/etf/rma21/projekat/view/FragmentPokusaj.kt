@@ -1,13 +1,14 @@
 package ba.etf.rma21.projekat.view
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.util.TimeUnit.values
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.View.inflate
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import ba.etf.rma21.projekat.MainActivity
@@ -16,6 +17,7 @@ import ba.etf.rma21.projekat.data.models.Pitanje
 import ba.etf.rma21.projekat.data.repositories.PitanjaKvizRepository
 import ba.etf.rma21.projekat.data.repositories.PitanjeKvizRepository
 import com.google.android.material.navigation.NavigationView
+import java.time.chrono.JapaneseEra.values
 
 class FragmentPokusaj(listaPitanja: List<Pitanje>): Fragment() {
 
@@ -29,6 +31,7 @@ class FragmentPokusaj(listaPitanja: List<Pitanje>): Fragment() {
         this.context = context as AppCompatActivity
     }
     private var listaPitanja = listaPitanja
+    @SuppressLint("ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,10 +45,22 @@ class FragmentPokusaj(listaPitanja: List<Pitanje>): Fragment() {
         }
         navigacijaPitanja = view.findViewById(R.id.navigacijaPitanja)
         framePitanje = view.findViewById(R.id.framePitanje)
+
+
+
+
+        for(i in 0..listaPitanja.size-1){
+            navigacijaPitanja.menu.add(R.menu.navigationview, i,Menu.NONE, (i+1).toString())
+            //println("Menu item id:" + navigacijaPitanja.menu.get(i-1))
+        }
+
+        navigacijaPitanja.setItemBackgroundResource(R.color.black)
+        navigacijaPitanja.setItemTextAppearance(R.color.white)
+
         navigacijaPitanja.setNavigationItemSelectedListener(NavigationView.OnNavigationItemSelectedListener {
             val fm = context.supportFragmentManager
             val fragmentTransaction: FragmentTransaction
-            val fragment = FragmentPitanje(listaPitanja.get(it.title.toString().toInt() - 1))
+            val fragment = FragmentPitanje(listaPitanja.get(it.itemId))
             fragmentTransaction = fm.beginTransaction()
             fragmentTransaction.replace(R.id.framePitanje, fragment)
                 .addToBackStack(null)
