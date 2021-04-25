@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#A1C7C8</color>
     <color name="green1">#CFE2E3</color>
+    <color name="correctAnswer" >#3DDC84</color>
+    <color name="wrongAnswer">#DB4F3D</color>
 </resources>
