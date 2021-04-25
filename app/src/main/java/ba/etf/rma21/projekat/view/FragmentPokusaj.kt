@@ -2,10 +2,11 @@ package ba.etf.rma21.projekat.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.icu.util.TimeUnit.values
 import android.os.Bundle
-import android.view.*
-import android.view.View.inflate
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
@@ -14,10 +15,8 @@ import androidx.fragment.app.FragmentTransaction
 import ba.etf.rma21.projekat.MainActivity
 import ba.etf.rma21.projekat.R
 import ba.etf.rma21.projekat.data.models.Pitanje
-import ba.etf.rma21.projekat.data.repositories.PitanjaKvizRepository
-import ba.etf.rma21.projekat.data.repositories.PitanjeKvizRepository
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import java.time.chrono.JapaneseEra.values
 
 class FragmentPokusaj(listaPitanja: List<Pitanje>): Fragment() {
 
@@ -26,6 +25,7 @@ class FragmentPokusaj(listaPitanja: List<Pitanje>): Fragment() {
     private lateinit var framePitanje: FrameLayout
     lateinit var context: AppCompatActivity
 
+        private val procenatTacnosti: Int = 0
     override fun onAttach(context: Context) {
         super.onAttach(context)
         this.context = context as AppCompatActivity
@@ -39,13 +39,34 @@ class FragmentPokusaj(listaPitanja: List<Pitanje>): Fragment() {
     ): View? {
         var view = inflater.inflate(R.layout.fragment_pokusaj, container, false)
 
+        val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.predajKviz -> {
+                    var  mainActivity = activity as MainActivity
+                    mainActivity.bottomNav.menu.findItem(R.id.kvizovi).setVisible(true);
+                    mainActivity.bottomNav.menu.findItem(R.id.predmeti).setVisible(true);
+                    mainActivity.bottomNav.menu.findItem(R.id.predajKviz).setVisible(false)
+                    mainActivity.bottomNav.menu.findItem(R.id.zaustaviKviz).setVisible(false)
+                    val fragmentPoruka = FragmentPoruka.newInstance("Završili ste kviz ${listaPitanja.get(0).naziv} sa tačnosti ");
+                    activity?.supportFragmentManager?.beginTransaction()
+                        ?.replace(R.id.placeforFragment, fragmentPoruka, "findThisFragment")
+                        ?.addToBackStack(null)
+                        ?.commit()
+                    return@OnNavigationItemSelectedListener true
+                }
+            }
+            false
+        }
+
         if (activity is MainActivity) {
             var  mainActivity = activity as MainActivity
             mainActivity.prilagodiBottomNavigation()
+            mainActivity.bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+
         }
         navigacijaPitanja = view.findViewById(R.id.navigacijaPitanja)
         framePitanje = view.findViewById(R.id.framePitanje)
-
 
 
 
@@ -61,6 +82,9 @@ class FragmentPokusaj(listaPitanja: List<Pitanje>): Fragment() {
             val fm = context.supportFragmentManager
             val fragmentTransaction: FragmentTransaction
             val fragment = FragmentPitanje(listaPitanja.get(it.itemId))
+            val args = Bundle()
+            args.putString("item", it.itemId.toString())
+            fragment.setArguments(args)
             fragmentTransaction = fm.beginTransaction()
             fragmentTransaction.replace(R.id.framePitanje, fragment)
                 .addToBackStack(null)

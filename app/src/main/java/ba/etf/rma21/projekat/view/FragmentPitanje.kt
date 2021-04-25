@@ -14,16 +14,24 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.view.children
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import ba.etf.rma21.projekat.MainActivity
 import ba.etf.rma21.projekat.R
 import ba.etf.rma21.projekat.data.models.Pitanje
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 
 
 class FragmentPitanje(pitanje: Pitanje): Fragment(), AdapterView.OnItemClickListener {
 
     private lateinit var tekstPitanja: TextView
     private lateinit var odgovoriLista: ListView
+    private lateinit var nav: NavigationView
     private var pitanje = pitanje
+
+
 
     private var arrayAdapter:ArrayAdapter<String>? = null
     override fun onCreateView(
@@ -32,9 +40,11 @@ class FragmentPitanje(pitanje: Pitanje): Fragment(), AdapterView.OnItemClickList
         savedInstanceState: Bundle?
     ): View? {
         var view = inflater.inflate(R.layout.fragment_pitanje, container, false)
+        var proba = inflater.inflate(R.layout.fragment_pokusaj, container, false)
 
         tekstPitanja = view.findViewById(R.id.tekstPitanja)
         odgovoriLista = view.findViewById(R.id.odgovoriLista)
+        nav = proba.findViewById(R.id.navigacijaPitanja)
 
         tekstPitanja.setText(pitanje.tekst)
         val listaPitanja = pitanje.opcije

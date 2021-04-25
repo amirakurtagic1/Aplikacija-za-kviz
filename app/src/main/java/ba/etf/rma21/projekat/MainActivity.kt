@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private var predmetListViewModel = PredmetListViewModel()
     private var kvizovi: KvizRepository = KvizRepository()
 
-    private lateinit var bottomNav: BottomNavigationView
+     lateinit var bottomNav: BottomNavigationView
 
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
