@@ -5,11 +5,11 @@ import ba.etf.rma21.projekat.data.models.*
 class KvizRepository {
 
     companion object {
-        // TODO: Implementirati
+        /*    // TODO: Implementirati
         init {
             // TODO: Implementirati
         }
-        lateinit var noviKviz: Kviz
+       lateinit var noviKviz: Kviz
         var noviKvizoviLista = emptyList<Kviz>()
 
         fun addKviz(predmet: Predmet, grupa: Grupa){
@@ -64,7 +64,21 @@ class KvizRepository {
             // TODO: Implementirati: moji kvizovi koji su prošli ali nisu urađeni
             return myNotTakenKvizes()
         }
-
+*/
         // TODO: Implementirati i ostale potrebne metode
+
+
+        fun getAll(): List<Kviz> {
+            return emptyList();
+        }
+
+        fun getById(id: Int): Kviz? {
+            return null;
+        }
+
+        fun getUpisani(): List<Kviz> {
+            return emptyList();
+        }
     }
+
 }

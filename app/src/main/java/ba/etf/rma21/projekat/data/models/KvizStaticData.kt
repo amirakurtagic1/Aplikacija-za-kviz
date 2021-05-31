@@ -7,7 +7,7 @@ import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+/*
 fun kvizes(): List<Kviz>{
     val date = Date(3600000)
 
@@ -102,4 +102,4 @@ fun myNotTakenKvizes(): List<Kviz>{
 
 fun parseFloat(double: Double): Float {
     return parseFloat(double)
-}
+}*/
