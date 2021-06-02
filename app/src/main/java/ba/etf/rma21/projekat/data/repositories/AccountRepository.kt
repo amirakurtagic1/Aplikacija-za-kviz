@@ -5,7 +5,7 @@ class AccountRepository {
 
     companion object {
         //TODO Ovdje trebate dodati hash string vašeg accounta
-        var acHash: String = "http://rma21-etf.herokuapp.com/account/e9336960-63fd-4158-af6a-a7a2b2984288"
+        var acHash: String = "e9336960-63fd-4158-af6a-a7a2b2984288"
 
         fun postaviHash(acHash: String): Boolean {
             this.acHash = acHash
