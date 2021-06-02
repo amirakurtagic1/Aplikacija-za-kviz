@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.etf.rma21.projekat.R
 import ba.etf.rma21.projekat.data.repositories.KvizRepository
+import ba.etf.rma21.projekat.data.repositories.PitanjeKvizRepository
 import ba.etf.rma21.projekat.viewModel.GrupaListViewModel
 import ba.etf.rma21.projekat.viewModel.KvizListViewModel
 import ba.etf.rma21.projekat.viewModel.PredmetListViewModel
@@ -35,9 +36,9 @@ class FragmentKvizovi: Fragment() {
         kvizoviRecyclerView.layoutManager = GridLayoutManager(activity, 2)
         kvizListAdapter = KvizListAdapter(arrayListOf())
         kvizoviRecyclerView.adapter = kvizListAdapter
-        kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
+       // kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
 
-
+       // println(PitanjeKvizRepository.getPitanja(1))
 
         filterKvizova = view.findViewById(R.id.filterKvizova)
         val arraySpinner = arrayOf(
@@ -58,13 +59,13 @@ class FragmentKvizovi: Fragment() {
         filterKvizova.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 selektovana = filterKvizova.selectedItem.toString()
-                if (selektovana.equals("Svi moji kvizovi")) {
+                /*if (selektovana.equals("Svi moji kvizovi")) {
                     kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
                 } else if (selektovana.equals("Svi kvizovi")) {
                     kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
                 } else if (selektovana.equals("Urađeni kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyDoneKvizes()))
                 else if (selektovana.equals("Budući kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyFutureKvizes()))
-                else if (selektovana.equals("Prošli kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyNotTakenKvizes()))
+                else if (selektovana.equals("Prošli kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyNotTakenKvizes()))*/
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -77,7 +78,7 @@ class FragmentKvizovi: Fragment() {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
 
-                if(filterKvizova.selectedItem.equals("Svi moji kvizovi"))kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
+             //   if(filterKvizova.selectedItem.equals("Svi moji kvizovi"))kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
             }
         }
     }

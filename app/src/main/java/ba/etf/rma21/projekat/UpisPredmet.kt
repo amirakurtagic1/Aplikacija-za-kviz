@@ -192,7 +192,7 @@ class UpisPredmet:  AppCompatActivity() {
         }
 
         upisiPredmet.setOnClickListener {
-            predmetListViewModel.addPredmetToUpisani(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()))
+           /* predmetListViewModel.addPredmetToUpisani(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()))
             val grupa = Grupa(odabirGrupa.selectedItem.toString(), odabirPredmet.selectedItem.toString());
             kvizListViewModel.addKvizToMyKvizes(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()), Grupa(odabirGrupa.selectedItem.toString(), odabirPredmet.selectedItem.toString()))
            // println("Selektovani predmet: " + odabirPredmet.selectedItem.toString())
@@ -206,7 +206,7 @@ class UpisPredmet:  AppCompatActivity() {
             transaction.commit()
             val resultIntent = Intent()
             setResult(Activity.RESULT_OK, resultIntent)
-            finish()
+            finish()*/
         }
 
     }

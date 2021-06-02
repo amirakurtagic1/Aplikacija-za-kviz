@@ -64,10 +64,10 @@ class KvizRepository {
             // TODO: Implementirati: moji kvizovi koji su prošli ali nisu urađeni
             return myNotTakenKvizes()
         }
-*/
+
         // TODO: Implementirati i ostale potrebne metode
 
-
+*/
         fun getAll(): List<Kviz> {
             return emptyList();
         }

@@ -46,7 +46,7 @@ class FragmentPitanje(pitanje: Pitanje): Fragment(), AdapterView.OnItemClickList
         odgovoriLista = view.findViewById(R.id.odgovoriLista)
         nav = proba.findViewById(R.id.navigacijaPitanja)
 
-        tekstPitanja.setText(pitanje.tekst)
+        tekstPitanja.setText(pitanje.tekstPitanja)
         val listaPitanja = pitanje.opcije
 
     //    val listaPitanja = arrayOf(pitanje.opcije.get(0))

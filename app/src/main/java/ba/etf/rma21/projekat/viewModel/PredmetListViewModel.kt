@@ -13,8 +13,8 @@ class PredmetListViewModel {
         return PredmetRepository.getUpisani()
     }
 
-    fun getAll(): List<Predmet> {
-        return PredmetRepository.getAll()
+    suspend fun getAll(): List<Predmet>? {
+       return emptyList()
     }
 
     fun getPredmetsByGodina(godina: Int): List<Predmet> {

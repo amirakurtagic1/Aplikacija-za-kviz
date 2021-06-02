@@ -40,7 +40,7 @@ class FragmentPredmeti: Fragment() {
         // The callback can be enabled or disabled here or in the lambda
     }*/
 
-
+/*
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -246,7 +246,7 @@ class FragmentPredmeti: Fragment() {
 
         return view;
     }
-
+*/
 
 
     companion object {

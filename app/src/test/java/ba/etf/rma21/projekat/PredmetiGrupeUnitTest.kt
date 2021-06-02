@@ -7,7 +7,7 @@ import ba.etf.rma21.projekat.data.repositories.PredmetRepository
 import ba.etf.rma21.projekat.viewModel.PredmetListViewModel
 import org.junit.Assert
 import org.junit.Test
-
+/*
 class PredmetiGrupeUnitTest {
 
     @Test
@@ -87,4 +87,4 @@ class PredmetiGrupeUnitTest {
         Assert.assertEquals(listaPredmeta, PredmetRepository.getUpisani())
 
     }
-}
+}*/

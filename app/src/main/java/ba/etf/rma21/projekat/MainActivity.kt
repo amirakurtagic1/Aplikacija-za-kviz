@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.etf.rma21.projekat.data.repositories.KvizRepository
+import ba.etf.rma21.projekat.data.repositories.PitanjeKvizRepository
 import ba.etf.rma21.projekat.view.FragmentKvizovi
 import ba.etf.rma21.projekat.view.FragmentPoruka
 import ba.etf.rma21.projekat.view.FragmentPredmeti
@@ -78,8 +79,7 @@ class MainActivity : AppCompatActivity() {
         bottomNav.menu.findItem(R.id.predajKviz).setVisible(false);
         bottomNav.menu.findItem(R.id.zaustaviKviz).setVisible(false);
 
-
-
+      //  println(PitanjeKvizRepository.getPitanja(1))
 
 
 
@@ -151,9 +151,9 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                if (filterKvizova.selectedItem.equals("Svi moji kvizovi")) kvizListAdapter.updateKvizes(
+              /*  if (filterKvizova.selectedItem.equals("Svi moji kvizovi")) kvizListAdapter.updateKvizes(
                     kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes())
-                )
+                )*/
                 var frPoruka = FragmentPoruka.newInstance("Neka poruka");
                 openFragment(frPoruka)
 

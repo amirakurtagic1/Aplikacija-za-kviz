@@ -8,7 +8,7 @@ import ba.etf.rma21.projekat.viewModel.KvizListViewModel
 import org.junit.Assert
 import org.junit.Test
 import java.util.*
-
+/*
 class ListaFiltriranihKvizovaUnitTest {
     @Test
     fun dohvatiSveKvizove() {
@@ -37,7 +37,8 @@ class ListaFiltriranihKvizovaUnitTest {
 
      //   Assert.assertSame(buduciKvizovi, KvizRepository.getMyFutureKvizes())
         Assert.assertEquals(buduciKvizovi, KvizRepository.getMyFutureKvizes())
-    }
+
+  /*  }
 
     @Test
     fun dohvatiSveMojeUradjeneKvizove() {
@@ -54,4 +55,4 @@ class ListaFiltriranihKvizovaUnitTest {
         Assert.assertEquals(Kviz("Kviz2", "OIS", Date(1619082000000), Date(1619686800000), null, 7, "Grupa2", null), KvizRepository.getMyKvizes()[KvizRepository.getMyKvizes().lastIndex])
     }
 
-}
+}*/

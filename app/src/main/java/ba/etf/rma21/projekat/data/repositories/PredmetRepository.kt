@@ -1,9 +1,8 @@
 package ba.etf.rma21.projekat.data.repositories
 
-import ba.etf.rma21.projekat.data.models.Predmet
-import ba.etf.rma21.projekat.data.models.predmeti
-import ba.etf.rma21.projekat.data.models.predmetiByGodina
-import ba.etf.rma21.projekat.data.models.upisani
+import ba.etf.rma21.projekat.data.models.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class PredmetRepository {
     companion object {
@@ -23,9 +22,13 @@ class PredmetRepository {
             return getUpisani
         }
 
-        fun getAll(): List<Predmet> {
-            var getAll: List<Predmet> = predmeti()
-            return getAll
+        suspend fun getAll(
+        ) : List<Predmet>?{
+            return withContext(Dispatchers.IO) {
+                var response = ApiAdapter.retrofit.getAllPredmets()
+                val responseBody = response.execute().body()
+                return@withContext responseBody
+            }
         }
 
         fun getPredmetsByGodina(godina: Int): List<Predmet>{

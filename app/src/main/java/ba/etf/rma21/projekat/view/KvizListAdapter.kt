@@ -44,7 +44,7 @@ class KvizListAdapter(private var kvizovi: List<Kviz>): RecyclerView.Adapter<Kvi
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-
+/*
         val dateFormat = SimpleDateFormat("dd.MM.yyyy")
         holder.nazivPredmeta.setText(kvizovi[position].nazivPredmeta)
         holder.nazivKviza.setText(kvizovi[position].naziv)
@@ -77,11 +77,11 @@ class KvizListAdapter(private var kvizovi: List<Kviz>): RecyclerView.Adapter<Kvi
                         .replace(R.id.placeforFragment, fragmentPokusaj)
                         .addToBackStack(null)
                         .commit()
-        }
+        }*/
 
 
     }
-
+/*
     fun updateKvizes(kvizovi: List<Kviz>) {
         this.kvizovi.toMutableList().clear()
         this.kvizovi = kvizovi
@@ -93,5 +93,5 @@ class KvizListAdapter(private var kvizovi: List<Kviz>): RecyclerView.Adapter<Kvi
         //kvizovi.sortedWith(compareByDescending<Kviz> { it.datumPocetka.toString() })
         kvizovi.sortedBy { it.datumPocetka}
         return kvizovi
-    }
+    }*/
 }

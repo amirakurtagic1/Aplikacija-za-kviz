@@ -1,13 +1,29 @@
 package ba.etf.rma21.projekat.data.repositories
 
 import ba.etf.rma21.projekat.data.models.Pitanje
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 
 class PitanjeKvizRepository {
     companion object {
-        fun getPitanja(idKviza: Int): List<Pitanje> {
-            return listOf(Pitanje(1,"Pitanje1", "Ovo je prvo pitanje?", listOf("Odgovor1", "Odgovor2", "Tacan"), 2),
-                          Pitanje(2,"Pitanje2", "Ovo je drugo pitanje?", listOf("Tacan", "Odgovor2", "Odgovor3"), 0),
-                          Pitanje(3,"Pitanje3", "Ovo je trece pitanje?", listOf("Odgovor1", "Tacan", "Odgovor3"), 1))
+         suspend fun getPitanja(idKviza: Int):List<Pitanje> {
+             val baseURL: String = ApiConfig.baseURL;
+             val url = URL("$baseURL/kviz/$idKviza/pitanja");
+             (url.openConnection() as? HttpURLConnection)?.run {
+                 val responseCode = this.responseCode
+                 val result = this.inputStream.bufferedReader().use { it.readText() }
+                 val json = JSONObject(result)//5
+                 println("Da znas da sam ovdje  " +  json)
+             }
+
+            return emptyList();
         }
     }
+
 }
