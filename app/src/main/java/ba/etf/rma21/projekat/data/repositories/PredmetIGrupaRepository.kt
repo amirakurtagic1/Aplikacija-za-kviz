@@ -29,8 +29,15 @@ class PredmetIGrupaRepository {
         fun getGrupeZaPredmet(idPredmeta:Int):List<Grupa>{
             return listOf();
         }
-        fun upisiUGrupu(idGrupa:Int):Boolean{
-
+        suspend fun upisiUGrupu(idGrupa:Int):Boolean{
+            return withContext(Dispatchers.IO) {
+                var response = ApiAdapter.retrofit.dodajStudentaSaHashomUGrupuSaId(idGrupa, AccountRepository.getHash())
+                val responseBody = response.execute().body()
+                if(response.execute().body()?.get("message").toString().contains("je dodan u grupu")) return@withContext true;
+                //println(responseBody.toString())
+              //  return@withContext responseBody
+                return@withContext false
+            }
             return true;
         }
         suspend fun getUpisaneGrupe():List<Grupa>?{
