@@ -1,5 +1,9 @@
 package ba.etf.rma21.projekat.data.repositories
 
+import ba.etf.rma21.projekat.data.models.ApiAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 
 class AccountRepository {
 
@@ -16,6 +20,14 @@ class AccountRepository {
             return acHash
         }
 
+        suspend fun obrisiSveOdKorisnika(): Boolean{
+            return withContext(Dispatchers.IO) {
+                var response = ApiAdapter.retrofit.obrisiSvePodatkePovezaneSaKorisnikom(acHash)
+                val responseBody = response?.body()
+                println(responseBody)
+                return@withContext true
+            }
+        }
 
     }
 }

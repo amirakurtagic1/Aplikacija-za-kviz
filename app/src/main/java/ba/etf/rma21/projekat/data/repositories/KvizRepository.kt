@@ -74,6 +74,9 @@ class KvizRepository {
             return withContext(Dispatchers.IO) {
                 var response = ApiAdapter.retrofit.getSviKvizovi()
                 val responseBody = response.execute().body()
+                if (responseBody != null) {
+                    println(responseBody.size)
+                }
                 return@withContext responseBody
             }
         }
@@ -90,9 +93,6 @@ class KvizRepository {
 
         suspend fun getUpisani(): List<Kviz>? {
             val upisaneGrupe = PredmetIGrupaRepository.getUpisaneGrupe();
-            if (upisaneGrupe != null) {
-                println(upisaneGrupe.size)
-            }
             var kvizovi : List<Kviz>?
             kvizovi = emptyList()
             if (upisaneGrupe != null) {

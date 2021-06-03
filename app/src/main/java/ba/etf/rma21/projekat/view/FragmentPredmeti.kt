@@ -29,18 +29,18 @@ class FragmentPredmeti: Fragment() {
     private var predmetListViewModel = PredmetListViewModel()
     private lateinit var upisiPredmet: Button
 
-  /*  override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // This callback will only be called when MyFragment is at least Started.
-        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-            // Handle the back button event
-        }
+        //val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+          //  // Handle the back button event
+       // }
 
         // The callback can be enabled or disabled here or in the lambda
-    }*/
+    }
 
-/*
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -227,7 +227,7 @@ class FragmentPredmeti: Fragment() {
             }
         }
 
-        upisiPredmet.setOnClickListener {
+  /*      upisiPredmet.setOnClickListener {
             predmetListViewModel.addPredmetToUpisani(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()))
             var grupa = Grupa(odabirGrupa.selectedItem.toString(), odabirPredmet.selectedItem.toString());
             kvizListViewModel.addKvizToMyKvizes(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()), Grupa(odabirGrupa.selectedItem.toString(), odabirPredmet.selectedItem.toString()))
@@ -242,11 +242,11 @@ class FragmentPredmeti: Fragment() {
                 ?.commit()
            // setResult(Activity.RESULT_OK, i)
            // getActivity()?.startActivity(i);
-        }
+        }*/
 
         return view;
     }
-*/
+
 
 
     companion object {

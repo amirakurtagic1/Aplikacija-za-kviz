@@ -8,7 +8,7 @@ class ApiConfig {
         var baseURL: String = "https://rma21-etf.herokuapp.com"
 
         fun postaviBaseURL(baseUrl:String):Unit{
-            baseURL=baseUrl
+            this.baseURL = baseUrl
         }
     }
 }

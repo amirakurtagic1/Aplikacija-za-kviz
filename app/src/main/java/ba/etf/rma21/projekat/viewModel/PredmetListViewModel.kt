@@ -14,7 +14,7 @@ class PredmetListViewModel {
     }
 
     suspend fun getAll(): List<Predmet>? {
-       return emptyList()
+       return PredmetRepository.getAll()
     }
 
     fun getPredmetsByGodina(godina: Int): List<Predmet> {

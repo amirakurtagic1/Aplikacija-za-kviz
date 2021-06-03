@@ -1,8 +1,11 @@
 package ba.etf.rma21.projekat.data.repositories
 
+import ba.etf.rma21.projekat.data.models.ApiAdapter
 import ba.etf.rma21.projekat.data.models.Grupa
 import ba.etf.rma21.projekat.data.models.groups
 import ba.etf.rma21.projekat.data.models.groupsByPredmet
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class GrupaRepository {
     companion object {
@@ -16,7 +19,12 @@ class GrupaRepository {
 
 
         fun getGroupsByPredmet(nazivPredmeta: String): List<Grupa> {
-            return groupsByPredmet(nazivPredmeta)
+           /* return withContext(Dispatchers.IO) {
+                var response = ApiAdapter.retrofit.grupeByPredmetId()
+                val responseBody = response.execute().body()
+                return@withContext responseBody
+            }*/
+            return emptyList()
         }
     }
 }

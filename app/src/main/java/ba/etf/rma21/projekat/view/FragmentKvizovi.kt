@@ -9,15 +9,21 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.etf.rma21.projekat.R
+import ba.etf.rma21.projekat.data.models.Kviz
 import ba.etf.rma21.projekat.data.repositories.KvizRepository
 import ba.etf.rma21.projekat.data.repositories.PitanjeKvizRepository
 import ba.etf.rma21.projekat.viewModel.GrupaListViewModel
 import ba.etf.rma21.projekat.viewModel.KvizListViewModel
 import ba.etf.rma21.projekat.viewModel.PredmetListViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class FragmentKvizovi: Fragment() {
 
@@ -36,6 +42,8 @@ class FragmentKvizovi: Fragment() {
         kvizoviRecyclerView.layoutManager = GridLayoutManager(activity, 2)
         kvizListAdapter = KvizListAdapter(arrayListOf())
         kvizoviRecyclerView.adapter = kvizListAdapter
+
+        kvizListViewModel.getAll(onSuccess = ::onSuccess, onError = ::onError)
        // kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
 
        // println(PitanjeKvizRepository.getPitanja(1))
@@ -54,24 +62,26 @@ class FragmentKvizovi: Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
         filterKvizova.adapter = adapter
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+
 
         filterKvizova.setSelection(1)
-        filterKvizova.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        /*filterKvizova.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 selektovana = filterKvizova.selectedItem.toString()
-                /*if (selektovana.equals("Svi moji kvizovi")) {
+                if (selektovana.equals("Svi moji kvizovi")) {
                     kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
                 } else if (selektovana.equals("Svi kvizovi")) {
                     kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
                 } else if (selektovana.equals("Urađeni kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyDoneKvizes()))
                 else if (selektovana.equals("Budući kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyFutureKvizes()))
-                else if (selektovana.equals("Prošli kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyNotTakenKvizes()))*/
+                else if (selektovana.equals("Prošli kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyNotTakenKvizes()))
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
 
             }
-        }
+        }*/
 
      fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -83,6 +93,18 @@ class FragmentKvizovi: Fragment() {
         }
     }
         return view;
+    }
+
+    fun onSuccess(kvizovi:List<Kviz>?){
+        println("Dosla sam ovdje")
+        val toast = Toast.makeText(context, "Svi kvizovi pronađeni", Toast.LENGTH_SHORT)
+        toast.show()
+        kvizListAdapter.updateKvizes(kvizovi)
+    }
+    fun onError() {
+        println("Error pronadjeeen");
+        val toast = Toast.makeText(context, "Search error", Toast.LENGTH_SHORT)
+        toast.show()
     }
     companion object {
         fun newInstance(): FragmentKvizovi = FragmentKvizovi()

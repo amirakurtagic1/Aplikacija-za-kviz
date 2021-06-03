@@ -31,8 +31,12 @@ class PredmetIGrupaRepository {
             }
         }
 
-        fun getGrupeZaPredmet(idPredmeta:Int):List<Grupa>{
-            return listOf();
+        suspend fun getGrupeZaPredmet(idPredmeta:Int):List<Grupa>?{
+            return withContext(Dispatchers.IO) {
+                var response = ApiAdapter.retrofit.grupeByPredmetId(idPredmeta)
+                val responseBody = response.execute().body()
+                return@withContext responseBody
+            }
         }
         suspend fun upisiUGrupu(idGrupa:Int):Boolean{
             return withContext(Dispatchers.IO) {
