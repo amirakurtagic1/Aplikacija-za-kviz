@@ -1,18 +1,32 @@
 package ba.etf.rma21.projekat.data.repositories
 
+import ba.etf.rma21.projekat.data.models.ApiAdapter
 import ba.etf.rma21.projekat.data.models.Odgovor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class OdgovorRepository {
 
     companion object{
-        fun getOdgovoriKviz(idKviza:Int):List<Odgovor>{
-
-            return listOf();
+       suspend fun getOdgovoriKviz(idKviza:Int):List<Odgovor>?{
+           return withContext(Dispatchers.IO) {
+               var response = ApiAdapter.retrofit.listaOdgovoraByKvizIdIStudentId(AccountRepository.getHash(), idKviza)
+               var responseBody = response.clone().execute().body()
+               if(responseBody != null)  return@withContext responseBody
+               return@withContext emptyList();
+           }
         }
 
-        fun postaviOdgovorKviz(idKvizTaken:Int,idPitanje:Int,odgovor:Int):Int{
-
-            return 0;
+        //postaviOdgovorKviz(idKvizTaken:Int,idPitanje:Int,odgovor:Int):Int - funkcija postavlja
+        //odgovor sa indeksom odgovor na pitanje sa id-em idPitanje u okviru pokušaja sa id-em
+        //idKvizTaken. Funkcija vraća ukupne bodove na kvizu nakon odgovora ili -1 ukoliko ima
+        //neka greška u zahtjevu
+        suspend fun postaviOdgovorKviz(idKvizTaken:Int,idPitanje:Int,odgovor:Int):Int{
+            return withContext(Dispatchers.IO) {
+                var response = ApiAdapter.retrofit.odgovorZaKvizKtidStudentHash(AccountRepository.getHash(), idKvizTaken, idPitanje, odgovor, 50)
+                if(response.execute().isSuccessful) return@withContext 50;
+                else return@withContext -1;
+            }
         }
 
 

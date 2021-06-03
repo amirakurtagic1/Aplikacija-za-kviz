@@ -6,8 +6,17 @@ import java.util.*
 data class KvizTaken(@SerializedName("id") val id: Int,
                      @SerializedName("student") val student: String,
                      @SerializedName("osvojeniBodovi")val osvojeniBodovi: Number,
-                     @SerializedName("datumRada") val datumRada: Date) {
+                     @SerializedName("datumRada") val datumRada: Date,
+                     @SerializedName("KvizId") var KvizId: Int) {
 
-    val KvizId: Int
-    get() {return KvizId}
+   /* @SerializedName("KvizId") var KvizId: Int
+        get() {
+            return KvizId
+        }
+
+    set(kvizId: Int){
+        this.KvizId = kvizId
+    }
+*/
+
 }

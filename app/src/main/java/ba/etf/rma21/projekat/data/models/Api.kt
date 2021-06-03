@@ -49,6 +49,7 @@ interface Api {
     fun listaOdgovoraByKvizIdIStudentId(@Path("id") id: String, @Path("ktid") ktid: Int): Call<List<Odgovor>>
 
     //Dodaje odgovor za pokušaja rješavanja kviza sa id-em ktid i za studenta sa zadanim hash id-em
+    @FormUrlEncoded
     @POST("student/{id}/kviztaken/{ktid}/odgovor")
     fun odgovorZaKvizKtidStudentHash(@Path("id") id: String, @Path("ktid") ktid: Int,
                                      @Field("odgovor") odgovor: Int,
@@ -57,12 +58,12 @@ interface Api {
 
 
     //KvizTaken
-   // @GET("/student/{id}/kviztaken")
-   // fun listaPokusajaZaStudentByID(@Path("id") id: String): Call<List<Pokusaj>>
+    @GET("/student/{id}/kviztaken")
+    fun listaPokusajaZaStudentByID(@Path("id") id: String): Call<List<KvizTaken>>
 
     //Započinje odgovaranje studenta sa id-jem id na kvizu sa id-em kid
     @POST("student/{id}/kviz/{kid}")
-    fun odgovaranjestudentaPOSTSaIdNaKvizuById(@Path("id") id: String, @Path("kid") kid: Int): Call<Kviz>
+    fun odgovaranjestudentaPOSTSaIdNaKvizuById(@Path("id") id: String, @Path("kid") kid: Int): Call<KvizTaken>
 
     //Account
     @GET("student/{id}")

@@ -42,15 +42,15 @@ class KvizListViewModel {
          KvizRepository.addKviz(predmet, grupa)
     }*/
 
-    fun getAll(): List<Kviz> {
+    suspend fun getAll(): List<Kviz>? {
         return KvizRepository.getAll();
     }
 
-    fun getById(id: Int): Kviz? {
+    suspend fun getById(id: Int): Kviz? {
         return KvizRepository.getById(id);
     }
 
-    fun getUpisani(): List<Kviz> {
+    suspend fun getUpisani(): List<Kviz>? {
         return KvizRepository.getUpisani();
     }
 }

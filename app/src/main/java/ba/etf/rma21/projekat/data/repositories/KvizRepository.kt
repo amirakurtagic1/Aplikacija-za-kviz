@@ -1,6 +1,8 @@
 package ba.etf.rma21.projekat.data.repositories
 
 import ba.etf.rma21.projekat.data.models.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class KvizRepository {
 
@@ -68,16 +70,42 @@ class KvizRepository {
         // TODO: Implementirati i ostale potrebne metode
 
 */
-        fun getAll(): List<Kviz> {
-            return emptyList();
+       suspend fun getAll(): List<Kviz>? {
+            return withContext(Dispatchers.IO) {
+                var response = ApiAdapter.retrofit.getSviKvizovi()
+                val responseBody = response.execute().body()
+                return@withContext responseBody
+            }
         }
 
-        fun getById(id: Int): Kviz? {
+        suspend fun getById(id: Int): Kviz? {
+            return withContext(Dispatchers.IO) {
+                var response = ApiAdapter.retrofit.getKvizByID(id)
+                val responseBody = response.execute().body()
+                //println(responseBody)
+                return@withContext responseBody
+            }
             return null;
         }
 
-        fun getUpisani(): List<Kviz> {
-            return emptyList();
+        suspend fun getUpisani(): List<Kviz>? {
+            val upisaneGrupe = PredmetIGrupaRepository.getUpisaneGrupe();
+            if (upisaneGrupe != null) {
+                println(upisaneGrupe.size)
+            }
+            var kvizovi : List<Kviz>?
+            kvizovi = emptyList()
+            if (upisaneGrupe != null) {
+                for(x in upisaneGrupe){
+                    var response = ApiAdapter.retrofit.kvizoviByGrupaId(x.id)
+                    val responseBody = response.clone().execute().body()
+                    val listaKvizova = responseBody
+                    if(listaKvizova != null){
+                        for(y in listaKvizova) kvizovi += y;
+                    }
+                }
+            }
+            return kvizovi;
         }
     }
 
