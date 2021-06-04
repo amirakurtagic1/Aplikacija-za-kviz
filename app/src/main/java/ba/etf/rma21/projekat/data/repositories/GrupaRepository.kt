@@ -13,8 +13,12 @@ class GrupaRepository {
 
         }
 
-        fun getGroups(): List<Grupa>{
-            return groups()
+        suspend fun getGroups(): List<Grupa>? {
+            return withContext(Dispatchers.IO) {
+               var response = ApiAdapter.retrofit.getAllGroups()
+                var responseBody = response.execute().body()
+                return@withContext responseBody
+            }
         }
 
 

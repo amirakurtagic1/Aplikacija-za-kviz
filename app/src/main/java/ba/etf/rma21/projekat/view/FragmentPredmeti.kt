@@ -15,6 +15,7 @@ import ba.etf.rma21.projekat.data.models.Predmet
 import ba.etf.rma21.projekat.viewModel.GrupaListViewModel
 import ba.etf.rma21.projekat.viewModel.KvizListViewModel
 import ba.etf.rma21.projekat.viewModel.PredmetListViewModel
+import ba.etf.rma21.projekat.viewModel.PredmetiIGrupeListViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -29,6 +30,7 @@ class FragmentPredmeti: Fragment() {
     private var grupaListViewModel = GrupaListViewModel()
     private var kvizListViewModel = KvizListViewModel()
     private var predmetListViewModel = PredmetListViewModel()
+    private var predmetiIGrupeListViewModel = PredmetiIGrupeListViewModel()
     private lateinit var upisiPredmet: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -264,22 +266,44 @@ class FragmentPredmeti: Fragment() {
 
         }
 
-  /*      upisiPredmet.setOnClickListener {
-            predmetListViewModel.addPredmetToUpisani(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()))
-            var grupa = Grupa(odabirGrupa.selectedItem.toString(), odabirPredmet.selectedItem.toString());
-            kvizListViewModel.addKvizToMyKvizes(Predmet(odabirPredmet.selectedItem.toString(), odabirGodina.selectedItem.toString().toInt()), Grupa(odabirGrupa.selectedItem.toString(), odabirPredmet.selectedItem.toString()))
-            // println("Selektovani predmet: " + odabirPredmet.selectedItem.toString())
-            //println("Selektovana godina: " + odabirGodina.selectedItem.toString())
-            for(kviz in kvizListViewModel.getMyKvizes()) println("Moj upisani predmet: " + kviz)
+        upisiPredmet.setOnClickListener {
+            GlobalScope.launch(Dispatchers.IO) {
+                var listaPredmeta = predmetListViewModel.getPredmetsByGodina(odabirGodina.selectedItem.toString().toInt());
+                var id: Int?
+                id = 0;
+                for(x in listaPredmeta!!){
+                    if(x.naziv.equals(odabirPredmet.selectedItem.toString())) id = x.id;
+                }
+               /* predmetListViewModel.addPredmetToUpisani(
+                    Predmet(id,
+                        odabirPredmet.selectedItem.toString(),
+                        odabirGodina.selectedItem.toString().toInt()
+                    )
+                )*/
+                var grupa: Grupa?
+                grupa = null
 
-            val fragmentPoruka = FragmentPoruka("Uspješno ste upisani u grupu ${grupa.naziv} predmeta ${grupa.nazivPredmeta}!");
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.placeforFragment, fragmentPoruka, "findThisFragment")
-                ?.addToBackStack(null)
-                ?.commit()
+                var sveGrupe = grupaListViewModel.getGroups();
+                if (sveGrupe != null) {
+                    for(x in sveGrupe){
+                        if(x.PredmetId.equals(id) && x.naziv.equals(odabirGrupa.selectedItem.toString())) grupa = x;
+                    }
+                }
+                grupa?.id?.let { it1 -> predmetiIGrupeListViewModel.upisiUGrupu(it1) }
+                // println("Selektovani predmet: " + odabirPredmet.selectedItem.toString())
+                //println("Selektovana godina: " + odabirGodina.selectedItem.toString())
+               // for (kviz in kvizListViewModel.getMyKvizes()) println("Moj upisani predmet: " + kviz)
+
+                val fragmentPoruka =
+                    FragmentPoruka("Uspješno ste upisani u grupu ${grupa!!.naziv} predmeta ${odabirPredmet.selectedItem.toString()}!");
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.placeforFragment, fragmentPoruka, "findThisFragment")
+                    ?.addToBackStack(null)
+                    ?.commit()
+            }
            // setResult(Activity.RESULT_OK, i)
            // getActivity()?.startActivity(i);
-        }*/
+        }
 
         return view;
     }

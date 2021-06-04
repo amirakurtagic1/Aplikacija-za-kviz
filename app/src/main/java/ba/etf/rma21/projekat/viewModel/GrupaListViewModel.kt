@@ -9,8 +9,10 @@ import kotlinx.coroutines.withContext
 
 class GrupaListViewModel() {
 
-    fun getGroups(): List<Grupa> {
-        return GrupaRepository.getGroups()
+    suspend fun getGroups(): List<Grupa>? {
+        return withContext(Dispatchers.IO) {
+            return@withContext GrupaRepository.getGroups()
+        }
     }
 
     suspend fun getGroupsByPredmet(nazivPredmeta: String): List<Grupa>? {

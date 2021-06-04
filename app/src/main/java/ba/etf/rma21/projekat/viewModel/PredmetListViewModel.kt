@@ -20,7 +20,24 @@ class PredmetListViewModel {
     }
 
     suspend fun getAll(): List<Predmet>? {
-       return PredmetRepository.getAll()
+        return withContext(Dispatchers.IO) {
+            return@withContext PredmetRepository.getAll()
+        }
+    }
+
+    suspend fun getMaxId(): Int{
+        return withContext(Dispatchers.IO){
+            var id: Int
+            id = 1;
+            var listaPredmeta = getAll()
+            if (listaPredmeta != null) {
+                for (x in listaPredmeta){
+                    if(x.id > id) id = x.id;
+                }
+            }
+            if(id == 1) return@withContext id;
+            else return@withContext id+1;
+        }
     }
 
     suspend fun getPredmetsByGodina(godina: Int): List<Predmet>? {
