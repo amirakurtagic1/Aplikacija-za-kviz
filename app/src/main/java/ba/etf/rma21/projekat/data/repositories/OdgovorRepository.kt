@@ -12,6 +12,7 @@ class OdgovorRepository {
            return withContext(Dispatchers.IO) {
                var response = ApiAdapter.retrofit.listaOdgovoraByKvizIdIStudentId(AccountRepository.getHash(), idKviza)
                var responseBody = response.clone().execute().body()
+               println(responseBody)
                if(responseBody != null)  return@withContext responseBody
                return@withContext emptyList();
            }
@@ -24,6 +25,7 @@ class OdgovorRepository {
         suspend fun postaviOdgovorKviz(idKvizTaken:Int,idPitanje:Int,odgovor:Int):Int{
             return withContext(Dispatchers.IO) {
                 var response = ApiAdapter.retrofit.odgovorZaKvizKtidStudentHash(AccountRepository.getHash(), idKvizTaken, idPitanje, odgovor, 50)
+                println(response.clone().execute().message())
                 if(response.execute().isSuccessful) return@withContext 50;
                 else return@withContext -1;
             }

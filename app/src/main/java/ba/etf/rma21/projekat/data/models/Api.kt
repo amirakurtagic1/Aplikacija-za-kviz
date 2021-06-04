@@ -51,7 +51,7 @@ interface Api {
     //Dodaje odgovor za pokušaja rješavanja kviza sa id-em ktid i za studenta sa zadanim hash id-em
     @FormUrlEncoded
     @POST("student/{id}/kviztaken/{ktid}/odgovor")
-    fun odgovorZaKvizKtidStudentHash(@Path("id") id: String, @Path("ktid") ktid: Int,
+    fun odgovorZaKvizKtidStudentHash(@Query("id") id: String, @Query("ktid") ktid: Int,
                                      @Field("odgovor") odgovor: Int,
                                      @Field("pitanje") pitanje: Int,
                                      @Field("bodovi") bodovi:Int): Call<Odgovor>
