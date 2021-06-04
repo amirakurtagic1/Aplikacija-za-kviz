@@ -79,11 +79,35 @@ class KvizListViewModel {
         return lista;
     }*/
 
-    suspend fun getById(id: Int): Kviz? {
-        return KvizRepository.getById(id);
-    }
+    //komentar
+    /*
+    suspend fun getById(onSuccess: (kviz: Kviz) -> Unit,
+                        onError: () -> Unit) {
+        scope.launch{
 
-    suspend fun getUpisani(): List<Kviz>? {
-        return KvizRepository.getUpisani();
+            // Make the network call and suspend execution until it finishes
+            val result = KvizRepository.getUpisani()
+            println(result)
+            // Display result of the network request to the user
+            when (result) {
+                is List<Kviz>? -> onSuccess?.invoke(result)
+                else-> onError?.invoke()
+            }
+        }
+    }*/
+
+     fun getUpisani(onSuccess: (kvizovi: List<Kviz>?) -> Unit,
+                           onError: () -> Unit) {
+        scope.launch{
+
+            // Make the network call and suspend execution until it finishes
+            val result = KvizRepository.getUpisani()
+            println(result)
+            // Display result of the network request to the user
+            when (result) {
+                is List<Kviz>? -> onSuccess?.invoke(result)
+                else-> onError?.invoke()
+            }
+        }
     }
 }

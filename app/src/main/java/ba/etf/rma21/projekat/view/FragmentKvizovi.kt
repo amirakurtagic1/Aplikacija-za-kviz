@@ -20,10 +20,7 @@ import ba.etf.rma21.projekat.data.repositories.PitanjeKvizRepository
 import ba.etf.rma21.projekat.viewModel.GrupaListViewModel
 import ba.etf.rma21.projekat.viewModel.KvizListViewModel
 import ba.etf.rma21.projekat.viewModel.PredmetListViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class FragmentKvizovi: Fragment() {
 
@@ -66,22 +63,35 @@ class FragmentKvizovi: Fragment() {
 
 
         filterKvizova.setSelection(1)
-        /*filterKvizova.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                selektovana = filterKvizova.selectedItem.toString()
-                if (selektovana.equals("Svi moji kvizovi")) {
-                    kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
-                } else if (selektovana.equals("Svi kvizovi")) {
-                    kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
-                } else if (selektovana.equals("Urađeni kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyDoneKvizes()))
-                else if (selektovana.equals("Budući kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyFutureKvizes()))
-                else if (selektovana.equals("Prošli kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyNotTakenKvizes()))
-            }
+            filterKvizova.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>,
+                        view: View,
+                        position: Int,
+                        id: Long
+                    ) {
+                        GlobalScope.launch(Dispatchers.IO)
+                        {
+                            selektovana = filterKvizova.selectedItem.toString()
+                            if (selektovana.equals("Svi moji kvizovi")) {
+                                withContext(Dispatchers.Main) { myApiCall() }
+                            } else if (selektovana.equals("Svi kvizovi")) {
+                                kvizListViewModel.getAll(
+                                    onSuccess = ::onSuccess,
+                                    onError = ::onError
+                                )
+                            } //else if (selektovana.equals("Urađeni kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyDoneKvizes()))
+                            //else if (selektovana.equals("Budući kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyFutureKvizes()))
+                            //else if (selektovana.equals("Prošli kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyNotTakenKvizes()))
+                        }
+                    }
 
-            }
-        }*/
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+
+                    }
+                }
+
 
      fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -95,6 +105,17 @@ class FragmentKvizovi: Fragment() {
         return view;
     }
 
+    suspend fun myApiCall() {
+       GlobalScope.launch(Dispatchers.IO) {
+           kvizListViewModel.getUpisani(
+               onSuccess = ::onSuccessMojiKvizovi,
+               onError = ::onErrorMojiKvizovi
+           )
+           delay(10_000)
+       }
+      //  delay(10_000) // 10 second delay koji imitira mrežni poziv
+    }
+
     fun onSuccess(kvizovi:List<Kviz>?){
         println("Dosla sam ovdje")
         val toast = Toast.makeText(context, "Svi kvizovi pronađeni", Toast.LENGTH_SHORT)
@@ -102,6 +123,18 @@ class FragmentKvizovi: Fragment() {
         kvizListAdapter.updateKvizes(kvizovi)
     }
     fun onError() {
+        println("Error pronadjeeen");
+        val toast = Toast.makeText(context, "Search error", Toast.LENGTH_SHORT)
+        toast.show()
+    }
+
+    fun onSuccessMojiKvizovi(kvizovi:List<Kviz>?){
+        println("Dosla sam ovdje")
+        val toast = Toast.makeText(context, "Svi kvizovi pronađeni", Toast.LENGTH_SHORT)
+        toast.show()
+        kvizListAdapter.updateKvizes(kvizovi)
+    }
+    fun onErrorMojiKvizovi() {
         println("Error pronadjeeen");
         val toast = Toast.makeText(context, "Search error", Toast.LENGTH_SHORT)
         toast.show()

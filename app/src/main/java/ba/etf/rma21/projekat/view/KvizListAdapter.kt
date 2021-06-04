@@ -98,7 +98,7 @@ class KvizListAdapter(private var kvizovi: List<Kviz>): RecyclerView.Adapter<Kvi
         notifyDataSetChanged()
     }
 
-    fun filterKvizesByDate(kvizovi: List<Kviz>): List<Kviz> {
+    fun filterKvizesByDate(kvizovi: List<Kviz>): List<Kviz>? {
 
         //kvizovi.sortedWith(compareByDescending<Kviz> { it.datumPocetka.toString() })
         kvizovi.sortedBy { it.datumPocetka}

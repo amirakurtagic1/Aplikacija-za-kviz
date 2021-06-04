@@ -92,20 +92,22 @@ class KvizRepository {
         }
 
         suspend fun getUpisani(): List<Kviz>? {
-            val upisaneGrupe = PredmetIGrupaRepository.getUpisaneGrupe();
-            var kvizovi : List<Kviz>?
-            kvizovi = emptyList()
-            if (upisaneGrupe != null) {
-                for(x in upisaneGrupe){
-                    var response = ApiAdapter.retrofit.kvizoviByGrupaId(x.id)
-                    val responseBody = response.clone().execute().body()
-                    val listaKvizova = responseBody
-                    if(listaKvizova != null){
-                        for(y in listaKvizova) kvizovi += y;
+            return withContext(Dispatchers.IO) {
+                val upisaneGrupe = PredmetIGrupaRepository.getUpisaneGrupe();
+                var kvizovi: List<Kviz>?
+                kvizovi = emptyList()
+                if (upisaneGrupe != null) {
+                    for (x in upisaneGrupe) {
+                        var response = ApiAdapter.retrofit.kvizoviByGrupaId(x.id)
+                        val responseBody = response.execute().body()
+                        val listaKvizova = responseBody
+                        if (listaKvizova != null) {
+                            for (y in listaKvizova) kvizovi += y;
+                        }
                     }
                 }
+                return@withContext kvizovi;
             }
-            return kvizovi;
         }
     }
 
