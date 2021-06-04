@@ -14,12 +14,31 @@ class PredmetRepository {
             this.predmet = predmet;
             noviPredmetiLista += predmet;
         }
-        fun getUpisani(): List<Predmet> {
-            var getUpisani: List<Predmet>  = upisani()
-            if(this::predmet.isInitialized) {
-                getUpisani += noviPredmetiLista;
+        suspend fun getUpisani(): List<Predmet>? {
+
+            return withContext(Dispatchers.IO) {
+                var listaSvihPredmeta = getAll()
+                var listOfUpisaniPredmet: List<Predmet>?
+                listOfUpisaniPredmet = emptyList()
+                var response = ApiAdapter.retrofit.getUpisaneGrupe(AccountRepository.getHash())
+                val responseBody = response.execute().body()
+                if(responseBody !== null){
+                    for(x in responseBody){
+                        if (listaSvihPredmeta != null) {
+                            for(y in listaSvihPredmeta){
+                                if(x.PredmetId.equals(y.id)) listOfUpisaniPredmet += y
+                            }
+
+                        }
+                    }
+                }
+                return@withContext listOfUpisaniPredmet
             }
-            return getUpisani
+           // var getUpisani: List<Predmet>  = upisani()
+           // if(this::predmet.isInitialized) {
+            //    getUpisani += noviPredmetiLista;
+           // }
+           // return getUpisani
         }
 
         suspend fun getAll(
@@ -31,8 +50,18 @@ class PredmetRepository {
             }
         }
 
-        fun getPredmetsByGodina(godina: Int): List<Predmet>{
-            return predmetiByGodina(godina)
+        suspend fun getPredmetsByGodina(godina: Int): List<Predmet>{
+            return withContext(Dispatchers.IO) {
+                var response = getAll()
+                var listaPredmetaByGodina: List<Predmet>?
+                listaPredmetaByGodina = emptyList()
+                if (response != null) {
+                    for(x in response){
+                        if(x.godina.equals(godina)) listaPredmetaByGodina += x;
+                    }
+                }
+                return@withContext listaPredmetaByGodina
+            }
         }
         // TODO: Implementirati i ostale potrebne metode
     }

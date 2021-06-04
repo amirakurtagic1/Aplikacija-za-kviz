@@ -19,6 +19,9 @@ import ba.etf.rma21.projekat.data.repositories.KvizRepository
 import ba.etf.rma21.projekat.data.repositories.PitanjeKvizRepository
 import ba.etf.rma21.projekat.data.repositories.TakeKvizRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
@@ -49,18 +52,21 @@ class KvizListAdapter(private var kvizovi: List<Kviz>): RecyclerView.Adapter<Kvi
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
 
+        GlobalScope.launch(Dispatchers.IO) {
 
-        val dateFormat = SimpleDateFormat("dd.MM.yyyy")
-        holder.nazivPredmeta.setText(kvizovi[position].naziv)
-        holder.nazivKviza.setText(kvizovi[position].naziv)
-        //holder.datum.setText(dateFormat.format(kvizovi[position].datumPocetka))
-        holder.trajanjeKviza.setText(kvizovi[position].trajanje.toString() + " min")
-        //if (kvizovi[position].osvojeniBodovi === null) holder.osvojeniBodovi.setText("")
-        holder.osvojeniBodovi.setText("")
-        //else holder.osvojeniBodovi.setText(kvizovi[position].osvojeniBodovi.toString())
+            var listOfKvizTaken = TakeKvizRepository.getPocetiKvizovi()
 
-        //komentar
-     /*   if (kvizovi[position].datumRada !== null) {
+            val dateFormat = SimpleDateFormat("dd.MM.yyyy")
+            holder.nazivPredmeta.setText(kvizovi[position].naziv)
+            holder.nazivKviza.setText(kvizovi[position].naziv)
+            //holder.datum.setText(dateFormat.format(kvizovi[position].datumPocetka))
+            holder.trajanjeKviza.setText(kvizovi[position].trajanje.toString() + " min")
+            //if (kvizovi[position].osvojeniBodovi === null) holder.osvojeniBodovi.setText("")
+            holder.osvojeniBodovi.setText("")
+            //else holder.osvojeniBodovi.setText(kvizovi[position].osvojeniBodovi.toString())
+
+            //komentar
+            /*   if (kvizovi[position].datumRada !== null) {
             holder.datum.setText(dateFormat.format(kvizovi[position].datumRada))
             holder.imgView.setImageResource(R.drawable.plava)
         }
@@ -76,8 +82,8 @@ class KvizListAdapter(private var kvizovi: List<Kviz>): RecyclerView.Adapter<Kvi
             holder.datum.setText(dateFormat.format(kvizovi[position].datumKraj))
             holder.imgView.setImageResource(R.drawable.crvena)
         }*/
-   //komentar
-    /*    holder.itemView.setOnClickListener{
+            //komentar
+            /*    holder.itemView.setOnClickListener{
             val fragmentPokusaj = FragmentPokusaj(PitanjeKvizRepository.getPitanja(kvizovi[position].naziv,kvizovi[position].nazivPredmeta))
                 val appCompatActivity = it.context as AppCompatActivity
                     appCompatActivity.supportFragmentManager.
@@ -87,6 +93,7 @@ class KvizListAdapter(private var kvizovi: List<Kviz>): RecyclerView.Adapter<Kvi
                         .commit()
         }
 */
+        }
 
     }
 

@@ -5,18 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
+import android.widget.*
 import androidx.activity.OnBackPressedDispatcher
 import androidx.fragment.app.Fragment
 import ba.etf.rma21.projekat.R
 import ba.etf.rma21.projekat.data.models.Grupa
+import ba.etf.rma21.projekat.data.models.Kviz
 import ba.etf.rma21.projekat.data.models.Predmet
 import ba.etf.rma21.projekat.viewModel.GrupaListViewModel
 import ba.etf.rma21.projekat.viewModel.KvizListViewModel
 import ba.etf.rma21.projekat.viewModel.PredmetListViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class FragmentPredmeti: Fragment() {
@@ -47,6 +49,7 @@ class FragmentPredmeti: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var view = inflater.inflate(R.layout.fragment_predmeti, container, false)
+
 
         upisiPredmet = view.findViewById(R.id.dodajPredmetDugme)
         upisiPredmet.isEnabled = false;
@@ -116,58 +119,72 @@ class FragmentPredmeti: Fragment() {
                 position: Int,
                 id: Long
             ) {
-                predmetiSpinner.clear()
-                grupeSpinner.clear()
-                if (adapterPredmet != null) {
-                    adapterPredmet.clear()
-                }
-                if (adapterGrupa != null) {
-                    adapterGrupa.clear()
-                }
-
-                upisiPredmet.isEnabled = false;
-                upisiPredmet.isClickable = false;
-
-                //  odabirPredmet.isClickable = true;
-                //odabirPredmet.isEnabled = true;
-                selektovanaGodina = odabirGodina.selectedItem.toString().toInt()
-                println("SELEKTOVANA GODINA: " + selektovanaGodina)
-                var predmetiGodine = predmetListViewModel.getPredmetsByGodina(selektovanaGodina)
-
-                for (predmet in predmetiGodine) println("PREDMET: " + predmet)
-
-                for (predmet in predmetiGodine) {
-                    for (upisaniPredmet in predmetListViewModel.getUpisani()) {
-                        if (predmet.equals(upisaniPredmet)) postoji = true;
-                    }
-                    if (postoji.equals(false)) {
-                        println("DODAJEM OVAJ PREDMET: " + predmet.naziv)
-                        predmetiSpinner.add(predmet.naziv)
-                    } else {
-                        postoji = false;
-                    }
-                }
-
-                if (predmetiSpinner.size !== 0) {
-                    var grupePoPredmetu = grupaListViewModel.getGroupsByPredmet(predmetiSpinner[0])
-
-
-                    for (grupa in grupePoPredmetu) {
-                        grupeSpinner.add(grupa.naziv)
-                    }
-                    if (grupePoPredmetu.size !== 0) {
-                        upisiPredmet.isClickable = true;
-                        upisiPredmet.isEnabled = true;
-                    }
-
+                GlobalScope.launch {
+                    predmetiSpinner.clear()
+                    grupeSpinner.clear()
                     if (adapterPredmet != null) {
-                        adapterPredmet.notifyDataSetChanged()
+                        withContext(Dispatchers.Main){
+                            adapterPredmet.clear()
+                        }
                     }
+
                     if (adapterGrupa != null) {
-                        adapterGrupa.notifyDataSetChanged()
+                        withContext(Dispatchers.Main) {
+                            adapterGrupa.clear()
+                        }
+                    }
+
+                    upisiPredmet.isEnabled = false;
+                    upisiPredmet.isClickable = false;
+
+                    //  odabirPredmet.isClickable = true;
+                    //odabirPredmet.isEnabled = true;
+                    selektovanaGodina = odabirGodina.selectedItem.toString().toInt()
+                    println("SELEKTOVANA GODINA: " + selektovanaGodina)
+                    var predmetiGodine = predmetListViewModel.getPredmetsByGodina(selektovanaGodina)
+
+
+                    for (predmet in predmetiGodine!!) {
+                        for (upisaniPredmet in predmetListViewModel.getUpisani()!!) {
+                            if (predmet.equals(upisaniPredmet)) postoji = true;
+                        }
+                        if (postoji.equals(false)) {
+                            println("DODAJEM OVAJ PREDMET: " + predmet.naziv)
+                            predmetiSpinner.add(predmet.naziv)
+                        } else {
+                            postoji = false;
+                        }
+                    }
+
+                    if (predmetiSpinner.size !== 0) {
+                        var grupePoPredmetu =
+                            grupaListViewModel.getGroupsByPredmet(predmetiSpinner[0])
+
+
+                        if (grupePoPredmetu != null) {
+                            for (grupa in grupePoPredmetu) {
+                                grupeSpinner.add(grupa.naziv)
+                            }
+                        }
+                        if (grupePoPredmetu !== null) {
+                            withContext(Dispatchers.Main) {
+                                upisiPredmet.isClickable = true;
+                                upisiPredmet.isEnabled = true;
+                            }
+                        }
+
+                        if (adapterPredmet != null) {
+                            withContext(Dispatchers.Main) {
+                                adapterPredmet.notifyDataSetChanged()
+                            }
+                        }
+                        if (adapterGrupa != null) {
+                            withContext(Dispatchers.Main) {
+                                adapterGrupa.notifyDataSetChanged()
+                            }
+                        }
                     }
                 }
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -182,31 +199,39 @@ class FragmentPredmeti: Fragment() {
                 position: Int,
                 id: Long
             ) {
-                if (adapterGrupa != null) {
-                    adapterGrupa.clear()
+
+                GlobalScope.launch(Dispatchers.IO) {
+                    if (adapterGrupa != null) {
+                        withContext(Dispatchers.Main) {
+                            adapterGrupa.clear()
+                        }
+                    }
+                    grupeSpinner.clear()
+                    // odabirGrupa.isEnabled = true;
+                    // odabirGrupa.isClickable = true;
+                    selektovaniPredmet = odabirPredmet.selectedItem.toString()
+                    // else selektovaniPredmet = odabirPredmet.get(0).toString()
+
+                    var grupePoPredmetu = grupaListViewModel.getGroupsByPredmet(selektovaniPredmet)
+
+
+                    if (grupePoPredmetu != null) {
+                        for (grupa in grupePoPredmetu) {
+                            grupeSpinner.add(grupa.naziv)
+                        }
+                    }
+                    // adapterPredmet.clear()
+                    //adapterPredmet.addAll(predmetiSpinner)
+                    if (adapterGrupa != null) {
+                        withContext(Dispatchers.Main) {
+                            adapterGrupa.notifyDataSetChanged()
+                        }
+                    }
                 }
-                grupeSpinner.clear()
-                // odabirGrupa.isEnabled = true;
-                // odabirGrupa.isClickable = true;
-                selektovaniPredmet = odabirPredmet.selectedItem.toString()
-                // else selektovaniPredmet = odabirPredmet.get(0).toString()
-
-                var grupePoPredmetu = grupaListViewModel.getGroupsByPredmet(selektovaniPredmet)
-
-
-                for (grupa in grupePoPredmetu) {
-                    grupeSpinner.add(grupa.naziv)
-                }
-                // adapterPredmet.clear()
-                //adapterPredmet.addAll(predmetiSpinner)
-                if (adapterGrupa != null) {
-                    adapterGrupa.notifyDataSetChanged()
-                }
-
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
             }
         }
 
@@ -225,6 +250,18 @@ class FragmentPredmeti: Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
 
             }
+
+            fun onSuccess(predmeti:List<Predmet>?){
+                println("Dosla sam ovdje")
+                val toast = Toast.makeText(context, "Svi kvizovi pronađeni", Toast.LENGTH_SHORT)
+                toast.show()
+            }
+            fun onError() {
+                println("Error pronadjeeen");
+                val toast = Toast.makeText(context, "Search error", Toast.LENGTH_SHORT)
+                toast.show()
+            }
+
         }
 
   /*      upisiPredmet.setOnClickListener {

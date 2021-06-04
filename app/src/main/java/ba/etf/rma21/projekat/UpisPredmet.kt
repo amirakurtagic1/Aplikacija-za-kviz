@@ -17,11 +17,14 @@ import ba.etf.rma21.projekat.view.FragmentPoruka
 import ba.etf.rma21.projekat.viewModel.GrupaListViewModel
 import ba.etf.rma21.projekat.viewModel.KvizListViewModel
 import ba.etf.rma21.projekat.viewModel.PredmetListViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class UpisPredmet:  AppCompatActivity() {
 
-    private lateinit var odabirGodina: Spinner
+   /* private lateinit var odabirGodina: Spinner
     private lateinit var odabirPredmet: Spinner
     private lateinit var odabirGrupa: Spinner
     private var grupaListViewModel = GrupaListViewModel()
@@ -90,50 +93,56 @@ class UpisPredmet:  AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                predmetiSpinner.clear()
-                grupeSpinner.clear()
-                adapterPredmet.clear()
-                adapterGrupa.clear()
+                GlobalScope.launch(Dispatchers.IO) {
+                    predmetiSpinner.clear()
+                    grupeSpinner.clear()
+                    adapterPredmet.clear()
+                    adapterGrupa.clear()
 
-                upisiPredmet.isEnabled = false;
-                upisiPredmet.isClickable = false;
+                    upisiPredmet.isEnabled = false;
+                    upisiPredmet.isClickable = false;
 
-              //  odabirPredmet.isClickable = true;
-                //odabirPredmet.isEnabled = true;
-                selektovanaGodina = odabirGodina.selectedItem.toString().toInt()
-                println("SELEKTOVANA GODINA: " + selektovanaGodina)
-                var predmetiGodine = predmetListViewModel.getPredmetsByGodina(selektovanaGodina)
+                    //  odabirPredmet.isClickable = true;
+                    //odabirPredmet.isEnabled = true;
+                    selektovanaGodina = odabirGodina.selectedItem.toString().toInt()
+                    println("SELEKTOVANA GODINA: " + selektovanaGodina)
+                    var predmetiGodine = predmetListViewModel.getPredmetsByGodina(selektovanaGodina)
 
-                for(predmet in predmetiGodine)println("PREDMET: " + predmet)
 
-                for(predmet in predmetiGodine){
-                    for(upisaniPredmet in predmetListViewModel.getUpisani()){
-                        if(predmet.equals(upisaniPredmet)) postoji = true;
+                    if (predmetiGodine != null) {
+                        for (predmet in predmetiGodine) {
+                            for (upisaniPredmet in predmetListViewModel.getUpisani()!!) {
+                                if (predmet.equals(upisaniPredmet)) postoji = true;
+                            }
+                            if (postoji.equals(false)) {
+                                println("DODAJEM OVAJ PREDMET: " + predmet.naziv)
+                                predmetiSpinner.add(predmet.naziv)
+                            } else {
+                                postoji = false;
+                            }
+                        }
                     }
-                    if(postoji.equals(false)){
-                        println("DODAJEM OVAJ PREDMET: " + predmet.naziv)
-                        predmetiSpinner.add(predmet.naziv)
-                    } else {
-                        postoji = false;
+
+                    if (predmetiSpinner.size !== 0) {
+                        var grupePoPredmetu =
+                            grupaListViewModel.getGroupsByPredmet(predmetiSpinner[0])
+
+
+                        if (grupePoPredmetu != null) {
+                            for (grupa in grupePoPredmetu) {
+                                grupeSpinner.add(grupa.naziv)
+                            }
+                        }
+                        if (grupePoPredmetu !== null) {
+                            upisiPredmet.isClickable = true;
+                            upisiPredmet.isEnabled = true;
+                        }
+
+                        adapterPredmet.notifyDataSetChanged()
+                        adapterGrupa.notifyDataSetChanged()
                     }
+
                 }
-
-    if(predmetiSpinner.size !== 0) {
-        var grupePoPredmetu = grupaListViewModel.getGroupsByPredmet(predmetiSpinner[0])
-
-
-        for (grupa in grupePoPredmetu) {
-            grupeSpinner.add(grupa.naziv)
-        }
-        if(grupePoPredmetu.size !== 0) {
-            upisiPredmet.isClickable = true;
-            upisiPredmet.isEnabled = true;
-        }
-
-        adapterPredmet.notifyDataSetChanged()
-        adapterGrupa.notifyDataSetChanged()
-    }
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -210,7 +219,7 @@ class UpisPredmet:  AppCompatActivity() {
         }
 
     }
-
+*/
 
 }
 

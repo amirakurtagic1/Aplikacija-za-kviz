@@ -18,13 +18,20 @@ class GrupaRepository {
         }
 
 
-        fun getGroupsByPredmet(nazivPredmeta: String): List<Grupa> {
-           /* return withContext(Dispatchers.IO) {
-                var response = ApiAdapter.retrofit.grupeByPredmetId()
+        suspend fun getGroupsByPredmet(nazivPredmeta: String): List<Grupa>? {
+            return withContext(Dispatchers.IO) {
+                var listOfAllPredmets = PredmetRepository.getAll()
+                var id: Int?
+                id = 0;
+                if (listOfAllPredmets != null) {
+                    for(x in listOfAllPredmets){
+                        if(x.naziv.equals(nazivPredmeta)) id = x.id
+                    }
+                }
+                var response = ApiAdapter.retrofit.grupeByPredmetId(id!!)
                 val responseBody = response.execute().body()
                 return@withContext responseBody
-            }*/
-            return emptyList()
+            }
         }
     }
 }
