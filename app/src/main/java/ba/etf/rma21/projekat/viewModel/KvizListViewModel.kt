@@ -60,41 +60,24 @@ class KvizListViewModel {
             }
         }
     }
-    /*
-    val scope = CoroutineScope(Job() + Dispatchers.Main)
 
-    suspend fun getAll(): List<Kviz>? {
-        var lista : List<Kviz>?
-        lista = emptyList()
-        scope.launch {
-            // Make the network call and suspend execution until it finishes
-            val result = KvizRepository.getAll()
-            println(result)
-            // Display result of the network request to the user
-            when (result) {
-                is List<Kviz>? -> lista = result
-                else -> lista = emptyList()
-            }
-        }
-        return lista;
-    }*/
 
-    //komentar
-    /*
+
+
     suspend fun getById(onSuccess: (kviz: Kviz) -> Unit,
-                        onError: () -> Unit) {
+                        onError: () -> Unit, kvizId: Int) {
         scope.launch{
 
             // Make the network call and suspend execution until it finishes
-            val result = KvizRepository.getUpisani()
+            val result = KvizRepository.getById(kvizId)
             println(result)
             // Display result of the network request to the user
             when (result) {
-                is List<Kviz>? -> onSuccess?.invoke(result)
+                is Kviz -> onSuccess?.invoke(result)
                 else-> onError?.invoke()
             }
         }
-    }*/
+    }
 
      fun getUpisani(onSuccess: (kvizovi: List<Kviz>?) -> Unit,
                            onError: () -> Unit) {
@@ -107,6 +90,51 @@ class KvizListViewModel {
             when (result) {
                 is List<Kviz>? -> onSuccess?.invoke(result)
                 else-> onError?.invoke()
+            }
+        }
+    }
+
+    fun getMyDoneKvizes(onSuccess: (kvizovi: List<Kviz>?) -> Unit,
+                        onError: () -> Unit) {
+        scope.launch {
+
+            // Make the network call and suspend execution until it finishes
+            val result = KvizRepository.getMyDoneKvizes()
+            println(result)
+            // Display result of the network request to the user
+            when (result) {
+                is List<Kviz>? -> onSuccess?.invoke(result)
+                else -> onError?.invoke()
+            }
+        }
+    }
+
+    fun getMyFutureKvizes(onSuccess: (kvizovi: List<Kviz>?) -> Unit,
+                          onError: () -> Unit) {
+        scope.launch {
+
+            // Make the network call and suspend execution until it finishes
+            val result = KvizRepository.getMyFutureKvizes()
+            println(result)
+            // Display result of the network request to the user
+            when (result) {
+                is List<Kviz>? -> onSuccess?.invoke(result)
+                else -> onError?.invoke()
+            }
+        }
+    }
+
+    fun getMyNotTakenKvizes(onSuccess: (kvizovi: List<Kviz>?) -> Unit,
+                            onError: () -> Unit) {
+        scope.launch {
+
+            // Make the network call and suspend execution until it finishes
+            val result = KvizRepository.getMyNotTakenKvizes()
+            println(result)
+            // Display result of the network request to the user
+            when (result) {
+                is List<Kviz>? -> onSuccess?.invoke(result)
+                else -> onError?.invoke()
             }
         }
     }

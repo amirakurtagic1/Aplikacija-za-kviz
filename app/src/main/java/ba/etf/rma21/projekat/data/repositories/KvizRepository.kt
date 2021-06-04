@@ -1,5 +1,7 @@
 package ba.etf.rma21.projekat.data.repositories
 
+import android.icu.util.Calendar
+import android.icu.util.LocaleData
 import ba.etf.rma21.projekat.data.models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -107,6 +109,51 @@ class KvizRepository {
                     }
                 }
                 return@withContext kvizovi;
+            }
+        }
+        suspend fun getMyNotTakenKvizes(): List<Kviz>? {
+            return withContext(Dispatchers.IO) {
+                val upisaniKvizovi = getUpisani()
+                var listOfMyNotTakenKvizes: List<Kviz>?
+                listOfMyNotTakenKvizes = emptyList()
+                if (upisaniKvizovi != null) {
+                    for(x in upisaniKvizovi){
+                        if(x.datumKraj !== null && x.datumKraj.before(Calendar.getInstance().time)) listOfMyNotTakenKvizes += x
+                    }
+                }
+                return@withContext listOfMyNotTakenKvizes;
+            }
+        }
+        suspend fun getMyDoneKvizes(): List<Kviz>? {
+            return withContext(Dispatchers.IO) {
+                val upisaniKvizovi = getUpisani()
+                var listOfMyDoneKvizes: List<Kviz>?
+                listOfMyDoneKvizes = emptyList()
+                var pocetiKvizovi = TakeKvizRepository.getPocetiKvizovi();
+                if (pocetiKvizovi != null) {
+                    for(x in pocetiKvizovi){
+                        if (upisaniKvizovi != null) {
+                            for(y in upisaniKvizovi){
+                                if(x.KvizId.equals(y.id)) listOfMyDoneKvizes += y;
+                            }
+                        }
+                    }
+                }
+                return@withContext listOfMyDoneKvizes;
+            }
+        }
+
+        suspend fun getMyFutureKvizes(): List<Kviz>? {
+            return withContext(Dispatchers.IO) {
+                val upisaniKvizovi = getUpisani()
+                var listOfMyFutureKvizes: List<Kviz>?
+                listOfMyFutureKvizes = emptyList()
+                if (upisaniKvizovi != null) {
+                    for(x in upisaniKvizovi){
+                        if(x.datumPocetka !== null &&  x.datumPocetka.after(Calendar.getInstance().time)) listOfMyFutureKvizes += x
+                    }
+                }
+                return@withContext listOfMyFutureKvizes;
             }
         }
     }

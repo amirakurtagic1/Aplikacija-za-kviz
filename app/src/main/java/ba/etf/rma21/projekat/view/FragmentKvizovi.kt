@@ -41,9 +41,6 @@ class FragmentKvizovi: Fragment() {
         kvizoviRecyclerView.adapter = kvizListAdapter
 
         kvizListViewModel.getAll(onSuccess = ::onSuccess, onError = ::onError)
-       // kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getAll()))
-
-       // println(PitanjeKvizRepository.getPitanja(1))
 
         filterKvizova = view.findViewById(R.id.filterKvizova)
         val arraySpinner = arrayOf(
@@ -80,10 +77,23 @@ class FragmentKvizovi: Fragment() {
                                 kvizListViewModel.getAll(
                                     onSuccess = ::onSuccess,
                                     onError = ::onError
+                                );
+                            } else if (selektovana.equals("Urađeni kvizovi")) {
+                                kvizListViewModel.getMyDoneKvizes(
+                                    onSuccess = ::onSuccess,
+                                    onError = ::onError);
+                            }
+                            else if (selektovana.equals("Budući kvizovi")) {
+                                kvizListViewModel.getMyFutureKvizes(
+                                    onSuccess = ::onSuccess,
+                                    onError = ::onError)
+                            }
+                            else if (selektovana.equals("Prošli kvizovi")) {
+                                kvizListViewModel.getMyNotTakenKvizes(
+                                    onSuccess = ::onSuccess,
+                                    onError = ::onError
                                 )
-                            } //else if (selektovana.equals("Urađeni kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyDoneKvizes()))
-                            //else if (selektovana.equals("Budući kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyFutureKvizes()))
-                            //else if (selektovana.equals("Prošli kvizovi")) kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyNotTakenKvizes()))
+                            }
                         }
                     }
 
@@ -95,12 +105,16 @@ class FragmentKvizovi: Fragment() {
 
      fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-
-             //   if(filterKvizova.selectedItem.equals("Svi moji kvizovi"))kvizListAdapter.updateKvizes(kvizListAdapter.filterKvizesByDate(kvizListViewModel.getMyKvizes()))
-            }
-        }
+         GlobalScope.launch(Dispatchers.IO) {
+             if (requestCode == 1) {
+                 if (resultCode == Activity.RESULT_OK) {
+                     if (filterKvizova.selectedItem.equals("Svi moji kvizovi")) kvizListViewModel.getUpisani(
+                         onSuccess = ::onSuccess,
+                         onError = ::onError
+                     )
+                 }
+             }
+         }
     }
         return view;
     }
